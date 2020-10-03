@@ -17,6 +17,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+       loadInfo();
+
+
+    }
+
+    private void loadInfo() {
         NetworkService.getInstance()
                 .getCityWithName()
                 .getCityWithName(name)
@@ -35,9 +41,5 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
-
-
     }
-
-
 }
