@@ -222,14 +222,14 @@ public class MainActivity extends AppCompatActivity {
                 .enqueue(new Callback<Info>() {
                     @Override
                     public void onResponse(Call<Info> call, Response<Info> response) {
-                        int cLoc = 1;
+                        int cLoc = 0;
                         Info info = response.body();
                         info.getList().get(cLoc).getName();
                         nameTextView.setText(info.getList().get(cLoc).getName());
                         tempMaxTextView.setText(info.getList().get(cLoc).getMain().getTempMax().toString());
                         tempMinTextView.setText(info.getList().get(cLoc).getMain().getTempMin().toString());
                         feelsLikeTextView.setText(info.getList().get(cLoc).getMain().getFeelsLike().toString());
-                        
+
                     }
 
                     @Override
