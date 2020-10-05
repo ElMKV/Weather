@@ -72,30 +72,23 @@ public class MainActivity extends AppCompatActivity {
                 // location from
                 // FusedLocationClient
                 // object
-                mFusedLocationClient
-                        .getLastLocation()
-                        .addOnCompleteListener(
-                                new OnCompleteListener<Location>() {
+                mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
 
-                                    @Override
-                                    public void onComplete(
-                                            @NonNull Task<Location> task) {
-                                        Location location = task.getResult();
-                                        if (location == null) {
-                                            requestNewLocationData();
-                                        } else {
-                                            lat = location.getLatitude();
-                                            lon = location.getLongitude();
-                                            Log.d("location", String.valueOf(lat));
-                                            Log.d("location", String.valueOf(lon));
+                    @Override
+                    public void onComplete(
+                            @NonNull Task<Location> task) {
+                        Location location = task.getResult();
+                        if (location == null) {
+                            requestNewLocationData();
+                        } else {
+                            lat = location.getLatitude();
+                            lon = location.getLongitude();
+                            Log.d("location", String.valueOf(lat));
+                            Log.d("location", String.valueOf(lon));
 
-                                            loadInfo();
-
-
-
-                                        }
-                                    }
-                                });
+                        }
+                    }
+                });
             } else {
                 Toast.makeText(this, "Please turn on" + " your location...", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
@@ -107,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
             requestPermissions();
         }
     }
+
     @SuppressLint("MissingPermission")
     private void requestNewLocationData() {
 
@@ -188,10 +182,12 @@ public class MainActivity extends AppCompatActivity {
     onRequestPermissionsResult(
             int requestCode,
             @NonNull String[] permissions,
-            @NonNull int[] grantResults) { super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSION_ID) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getLastLocation();
+                loadInfo();
             }
         }
     }
@@ -203,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
             getLastLocation();
         }
     }
+
     private void loadInfo() {
         NetworkService
                 .getInstance()
