@@ -38,4 +38,11 @@
         android:layout_height="wrap_content"
         android:text="TextView" />
 
+    <Button
+        android:id="@+id/обновить"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="reload"
+        android:text="Button" />
+
 </LinearLayout>

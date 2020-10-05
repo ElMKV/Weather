@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -87,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                                             lon = location.getLongitude();
                                             Log.d("location", String.valueOf(lat));
                                             Log.d("location", String.valueOf(lon));
+
                                             loadInfo();
 
 
@@ -173,8 +175,7 @@ public class MainActivity extends AppCompatActivity {
     // if location is enabled
     private boolean isLocationEnabled() {
         LocationManager
-                locationManager
-                = (LocationManager) getSystemService(
+                locationManager = (LocationManager) getSystemService(
                 Context.LOCATION_SERVICE);
 
         return locationManager
@@ -202,8 +203,6 @@ public class MainActivity extends AppCompatActivity {
             getLastLocation();
         }
     }
-
-
     private void loadInfo() {
         NetworkService
                 .getInstance()
@@ -221,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
                         feelsLikeTextView.setText(info.getList().get(cLoc).getMain().getFeelsLike().toString());
                         feelsLikeTextView.setText(info.getList().get(cLoc).getMain().getFeelsLike().toString());
                         cloudsTextView.setText(info.getList().get(cLoc).getWeather().get(cLoc).getDescription());
-                        Log.d("location",info.getList().get(cLoc).getName());
+
 
                     }
 
@@ -232,4 +231,8 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    public void reload(View view) {
+        getLastLocation();
+        loadInfo();
+    }
 }
