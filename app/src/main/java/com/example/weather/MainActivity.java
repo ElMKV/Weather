@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Initializing other items
     // from layout file
-    TextView nameTextView, tempMinTextView, tempMaxTextView, feelsLikeTextView;
+    TextView nameTextView, tempMinTextView, tempMaxTextView, feelsLikeTextView, cloudsTextView;
     int PERMISSION_ID = 44;
 
     @Override
@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         tempMaxTextView = findViewById(R.id.tempMax);
         tempMinTextView = findViewById(R.id.tempMin);
         feelsLikeTextView = findViewById(R.id.feelsLike);
+        cloudsTextView = findViewById(R.id.cloudsTextView);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         // method to get the location
@@ -82,9 +83,12 @@ public class MainActivity extends AppCompatActivity {
                                         if (location == null) {
                                             requestNewLocationData();
                                         } else {
-                                            loadInfo();
                                             lat = location.getLatitude();
                                             lon = location.getLongitude();
+                                            Log.d("location", String.valueOf(lat));
+                                            Log.d("location", String.valueOf(lon));
+                                            loadInfo();
+
 
 
                                         }
@@ -174,11 +178,7 @@ public class MainActivity extends AppCompatActivity {
                 Context.LOCATION_SERVICE);
 
         return locationManager
-                .isProviderEnabled(
-                        LocationManager.GPS_PROVIDER)
-                || locationManager
-                .isProviderEnabled(
-                        LocationManager.NETWORK_PROVIDER);
+                .isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 
     // If everything is alright then
@@ -187,19 +187,9 @@ public class MainActivity extends AppCompatActivity {
     onRequestPermissionsResult(
             int requestCode,
             @NonNull String[] permissions,
-            @NonNull int[] grantResults) {
-        super
-                .onRequestPermissionsResult(
-                        requestCode,
-                        permissions,
-                        grantResults);
-
+            @NonNull int[] grantResults) { super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSION_ID) {
-            if (grantResults.length > 0
-                    && grantResults[0]
-                    == PackageManager
-                    .PERMISSION_GRANTED) {
-
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getLastLocation();
             }
         }
@@ -229,6 +219,9 @@ public class MainActivity extends AppCompatActivity {
                         tempMaxTextView.setText(info.getList().get(cLoc).getMain().getTempMax().toString());
                         tempMinTextView.setText(info.getList().get(cLoc).getMain().getTempMin().toString());
                         feelsLikeTextView.setText(info.getList().get(cLoc).getMain().getFeelsLike().toString());
+                        feelsLikeTextView.setText(info.getList().get(cLoc).getMain().getFeelsLike().toString());
+                        cloudsTextView.setText(info.getList().get(cLoc).getWeather().get(cLoc).getDescription());
+                        Log.d("location",info.getList().get(cLoc).getName());
 
                     }
 
