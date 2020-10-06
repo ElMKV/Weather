@@ -1,6 +1,7 @@
 package com.example.weather;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,7 +12,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +21,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.squareup.picasso.Picasso;
+
+import java.text.DecimalFormat;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,6 +35,10 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_LOCATION = 1;
     LocationManager locationManager;
     String latitude, longitude, iconCode;
+    String url = "http://openweathermap.org/img/wn/";
+    String codeWeather;
+
+
 
 
     Button btnGetLocation;
@@ -39,9 +46,15 @@ public class MainActivity extends AppCompatActivity {
     double lon;
     FusedLocationProviderClient mFusedLocationClient;
 
-    TextView nameTextView, tempMinTextView, tempMaxTextView, feelsLikeTextView, cloudsTextView, codeIcon;
+    TextView nameTextView;
+    TextView tempMinTextView;
+    TextView tempMaxTextView;
+    TextView feelsLikeTextView;
+    TextView cloudsTextView;
+    TextView textViewWingSpeed;
     ImageView imageViewIcon;
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,8 +65,9 @@ public class MainActivity extends AppCompatActivity {
         tempMinTextView = findViewById(R.id.tempMin);
         feelsLikeTextView = findViewById(R.id.feelsLike);
         cloudsTextView = findViewById(R.id.cloudsTextView);
-        btnGetLocation = findViewById(R.id.btnGetLocation);
-        codeIcon = findViewById(R.id.codeIcon);
+//        btnGetLocation = findViewById(R.id.btnGetLocation);
+        imageViewIcon = findViewById(R.id.imageViewIcon);
+//        textViewWingSpeed = findViewById(R.id.textViewWingSpeed);
 
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
 
@@ -61,19 +75,16 @@ public class MainActivity extends AppCompatActivity {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             OnGPS();
-
         } else {
             getLocation();
             loadInfo();
         }
-
-        btnGetLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
+//        btnGetLocation.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
     }
 
     private void OnGPS() {
@@ -126,18 +137,10 @@ public class MainActivity extends AppCompatActivity {
                 .enqueue(new Callback<Info>() {
                     @Override
                     public void onResponse(Call<Info> call, Response<Info> response) {
-                        int cLoc = 0;
+
                         Info info = response.body();
-                        info.getList().get(cLoc).getName();
-                        nameTextView.setText(info.getList().get(cLoc).getName());
-                        tempMaxTextView.setText(info.getList().get(cLoc).getMain().getTempMax().toString());
-                        tempMinTextView.setText(info.getList().get(cLoc).getMain().getTempMin().toString());
-                        feelsLikeTextView.setText(info.getList().get(cLoc).getMain().getFeelsLike().toString());
-                        feelsLikeTextView.setText(info.getList().get(cLoc).getMain().getFeelsLike().toString());
-                        cloudsTextView.setText(info.getList().get(cLoc).getWeather().get(cLoc).getDescription());
-                        codeIcon.setText(info.getList().get(cLoc).getWeather().get(cLoc).getIcon());
 
-
+                        initViewWeather(info);
 
                     }
 
@@ -146,6 +149,27 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+    private void initViewWeather(Info info) {
+        int cLoc = 0;
+
+        info.getList().get(cLoc).getName();
+        nameTextView.setText(info.getList().get(cLoc).getName());
+        tempMaxTextView.setText("Днем: "+info.getList().get(cLoc).getMain().getTempMax().toString());
+        tempMinTextView.setText("Вечером: " + info.getList().get(cLoc).getMain().getTempMin().toString());
+
+        DecimalFormat df = new DecimalFormat("###");
+
+        feelsLikeTextView.setText(df.format(info.getList().get(cLoc).getMain().getFeelsLike()) + "\u2103");
+        cloudsTextView.setText(info.getList().get(cLoc).getWeather().get(cLoc).getDescription());
+        codeWeather = info.getList().get(cLoc).getWeather().get(cLoc).getIcon();
+        Integer speedWings = info.getList().get(cLoc).getWind().getSpeed();
+//        textViewWingSpeed.setText(speedWings + "");
+
+
+        Picasso.with(getApplicationContext())
+                .load(url + codeWeather + "@2x.png")
+                .into(imageViewIcon);
     }
 
 
