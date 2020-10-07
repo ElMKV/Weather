@@ -30,13 +30,16 @@ import static android.app.AlertDialog.Builder;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_LOCATION = 1;
+    String KEY = "14fcc3726972a2ee7e67a8a0a98c87d8";
+    String UNITS = "metric";
+    String LANG = "ru";
+
     LocationManager locationManager;
     String latitude, longitude, iconCode;
 
-
     Button btnGetLocation;
-    double lat;
-    double lon;
+    Double lat;
+    Double lon;
     FusedLocationProviderClient mFusedLocationClient;
 
     TextView nameTextView, tempMinTextView, tempMaxTextView, feelsLikeTextView, cloudsTextView, codeIcon;
@@ -109,8 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 lat = locationGPS.getLatitude();
                 lon = locationGPS.getLongitude();
 
-                Log.d("loc", String.valueOf(lat));
-                Log.d("loc", String.valueOf(lon));
+
 
             } else {
                 Toast.makeText(this, "Unable to find location.", Toast.LENGTH_SHORT).show();
@@ -119,33 +121,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadInfo() {
-        NetworkService
-                .getInstance()
+        NetworkService.getInstance()
                 .getCityWithName()
-                .GetSityInf(lat, lon)
+                .GetSityInf(lat, lon, LANG, KEY, UNITS)
                 .enqueue(new Callback<Info>() {
                     @Override
                     public void onResponse(Call<Info> call, Response<Info> response) {
-                        int cLoc = 0;
+
                         Info info = response.body();
-                        info.getList().get(cLoc).getName();
-                        nameTextView.setText(info.getList().get(cLoc).getName());
-                        tempMaxTextView.setText(info.getList().get(cLoc).getMain().getTempMax().toString());
-                        tempMinTextView.setText(info.getList().get(cLoc).getMain().getTempMin().toString());
-                        feelsLikeTextView.setText(info.getList().get(cLoc).getMain().getFeelsLike().toString());
-                        feelsLikeTextView.setText(info.getList().get(cLoc).getMain().getFeelsLike().toString());
-                        cloudsTextView.setText(info.getList().get(cLoc).getWeather().get(cLoc).getDescription());
-                        codeIcon.setText(info.getList().get(cLoc).getWeather().get(cLoc).getIcon());
-
-
+                        getInfoAndInitView(info);
 
                     }
 
                     @Override
                     public void onFailure(Call<Info> call, Throwable t) {
+                        Log.d("log", "Ошибка " +  t.toString());
+
+
 
                     }
                 });
+
+
+
+    }
+
+    private void getInfoAndInitView(Info info) {
+        Log.d("log", info.getTimezone());
+
+
+
+
     }
 
 

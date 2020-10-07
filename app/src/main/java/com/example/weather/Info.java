@@ -3,52 +3,109 @@ package com.example.weather;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 
 public class Info {
 
-        @SerializedName("message")
+        @SerializedName("lat")
         @Expose
-        private String message;
-        @SerializedName("cod")
+        private Double lat;
+        @SerializedName("lon")
         @Expose
-        private String cod;
-        @SerializedName("count")
+        private Double lon;
+        @SerializedName("timezone")
         @Expose
-        private Integer count;
-        @SerializedName("list")
+        private String timezone;
+        @SerializedName("timezone_offset")
         @Expose
-        private java.util.List<List> list = null;
+        private Integer timezoneOffset;
+        @SerializedName("current")
+        @Expose
+        private Current current;
+        @SerializedName("minutely")
+        @Expose
+        private List<Minutely> minutely = null;
+        @SerializedName("hourly")
+        @Expose
+        private List<Hourly> hourly = null;
+        @SerializedName("daily")
+        @Expose
+        private List<Daily> daily = null;
+        @SerializedName("alerts")
+        @Expose
+        private List<Alert> alerts = null;
 
-        public String getMessage() {
-            return message;
+        public Double getLat() {
+            return lat;
         }
 
-        public void setMessage(String message) {
-            this.message = message;
+        public void setLat(Double lat) {
+            this.lat = lat;
         }
 
-        public String getCod() {
-            return cod;
+        public Double getLon() {
+            return lon;
         }
 
-        public void setCod(String cod) {
-            this.cod = cod;
+        public void setLon(Double lon) {
+            this.lon = lon;
         }
 
-        public Integer getCount() {
-            return count;
+        public String getTimezone() {
+            return timezone;
         }
 
-        public void setCount(Integer count) {
-            this.count = count;
+        public void setTimezone(String timezone) {
+            this.timezone = timezone;
         }
 
-        public java.util.List<List> getList() {
-            return list;
+        public Integer getTimezoneOffset() {
+            return timezoneOffset;
         }
 
-        public void setList(java.util.List<List> list) {
-            this.list = list;
+        public void setTimezoneOffset(Integer timezoneOffset) {
+            this.timezoneOffset = timezoneOffset;
+        }
+
+        public Current getCurrent() {
+            return current;
+        }
+
+        public void setCurrent(Current current) {
+            this.current = current;
+        }
+
+        public List<Minutely> getMinutely() {
+            return minutely;
+        }
+
+        public void setMinutely(List<Minutely> minutely) {
+            this.minutely = minutely;
+        }
+
+        public List<Hourly> getHourly() {
+            return hourly;
+        }
+
+        public void setHourly(List<Hourly> hourly) {
+            this.hourly = hourly;
+        }
+
+        public List<Daily> getDaily() {
+            return daily;
+        }
+
+        public void setDaily(List<Daily> daily) {
+            this.daily = daily;
+        }
+
+        public List<Alert> getAlerts() {
+            return alerts;
+        }
+
+        public void setAlerts(List<Alert> alerts) {
+            this.alerts = alerts;
         }
 
     }
