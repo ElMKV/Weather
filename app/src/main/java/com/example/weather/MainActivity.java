@@ -11,7 +11,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +20,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.squareup.picasso.Picasso;
+
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,14 +39,15 @@ public class MainActivity extends AppCompatActivity {
     String LANG = "ru";
 
     LocationManager locationManager;
-    String latitude, longitude, iconCode;
+    String codeWeather;
 
     Button btnGetLocation;
     Double lat;
     Double lon;
     FusedLocationProviderClient mFusedLocationClient;
 
-    TextView nameTextView, tempMinTextView, tempMaxTextView, feelsLikeTextView, cloudsTextView, codeIcon;
+    TextView nameTextView, sunSetTextView, sunRiseTextView, feelsLikeTextView, cloudsTextView;
+
     ImageView imageViewIcon;
 
     @Override
@@ -51,12 +56,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         nameTextView = findViewById(R.id.name);
-        tempMaxTextView = findViewById(R.id.tempMax);
-        tempMinTextView = findViewById(R.id.tempMin);
-        feelsLikeTextView = findViewById(R.id.feelsLike);
+        feelsLikeTextView = findViewById(R.id.feelsLikeTextView);
         cloudsTextView = findViewById(R.id.cloudsTextView);
-        btnGetLocation = findViewById(R.id.btnGetLocation);
-        codeIcon = findViewById(R.id.codeIcon);
+        sunSetTextView = findViewById(R.id.sunSetTextView);
+        sunRiseTextView = findViewById(R.id.sunRiseTextView);
+        cloudsTextView = findViewById(R.id.cloudsTextView);
+        imageViewIcon = findViewById(R.id.imageViewIcon);
 
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
 
@@ -70,12 +75,12 @@ public class MainActivity extends AppCompatActivity {
             loadInfo();
         }
 
-        btnGetLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+//        btnGetLocation.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
 
     }
 
@@ -111,6 +116,8 @@ public class MainActivity extends AppCompatActivity {
             if (locationGPS != null) {
                 lat = locationGPS.getLatitude();
                 lon = locationGPS.getLongitude();
+                Log.d("loc", String.valueOf(lat));
+                Log.d("loc", String.valueOf(lon));
 
 
 
@@ -131,6 +138,11 @@ public class MainActivity extends AppCompatActivity {
                         Info info = response.body();
                         getInfoAndInitView(info);
 
+
+
+
+
+
                     }
 
                     @Override
@@ -148,6 +160,35 @@ public class MainActivity extends AppCompatActivity {
 
     private void getInfoAndInitView(Info info) {
         Log.d("log", info.getTimezone());
+
+        nameTextView.setText(info.getTimezone());
+
+        DecimalFormat df = new DecimalFormat("###");
+
+        feelsLikeTextView.setText(df.format(info.getCurrent().getFeelsLike()) + "\u2103");
+        cloudsTextView.setText(info.getCurrent().getWeather().get(0).getDescription());
+        codeWeather = info.getCurrent().getWeather().get(0).getIcon();
+
+//        textViewWingSpeed.setText(speedWings + "");
+
+        Integer unixSunRise= info.getCurrent().getSunrise();
+        Integer unixSunSet= info.getCurrent().getSunset();
+        Date dateSunRise = new java.util.Date(unixSunRise*1000L);
+        Date dateSunSet = new java.util.Date(unixSunSet*1000L);
+        SimpleDateFormat sdf = new java.text.SimpleDateFormat("HH:mm");
+
+        String normaldateSunRise = sdf.format(dateSunRise);
+        String normaldateSunSet = sdf.format(dateSunSet);
+
+        sunRiseTextView.setText("Восход: " + sdf.format(dateSunRise));
+        sunSetTextView.setText("Закат: " + sdf.format(dateSunSet));
+
+
+
+
+        Picasso.with(getApplicationContext())
+                .load("http://openweathermap.org/img/wn/" + codeWeather + "@2x.png")
+                .into(imageViewIcon);
 
 
 
