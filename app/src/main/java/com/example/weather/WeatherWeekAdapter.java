@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -36,12 +37,13 @@ public class WeatherWeekAdapter extends RecyclerView.Adapter<WeatherWeekAdapter.
     }
     @Override
     public void onBindViewHolder(@NonNull WeatherWeekAdapter.ViewHolder holder, int position) {
+        DecimalFormat df = new DecimalFormat("#");
+
         Double day = list.get(position).getTemp().getDay();
         Double night = list.get(position).getTemp().getNight();
-        day = Math.ceil(day);
-        night = Math.ceil(night);
-        holder.dayWeather.setText(day + "");
-        holder.nightWeather.setText(night + "");
+
+        holder.dayWeather.setText(df.format(day));
+        holder.nightWeather.setText(df.format(night));
 
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
         Date dateFormat = new java.util.Date(list.get(position).getDt() * 1000);
@@ -69,7 +71,6 @@ public class WeatherWeekAdapter extends RecyclerView.Adapter<WeatherWeekAdapter.
             nightWeather = (TextView) itemView.findViewById(R.id.textViewNightTemp);
             textViewNameWeek = (TextView) itemView.findViewById(R.id.textViewNameWeek);
             imageViewWeatherWeek = (ImageView) itemView.findViewById(R.id.imageViewWeatherWeek);
-
 
             itemView.setOnClickListener(this);
 
