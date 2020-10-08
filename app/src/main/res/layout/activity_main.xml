@@ -136,13 +136,14 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/card"
         android:layout_alignParentBottom="false"
         android:layout_centerHorizontal="false"
-        android:layout_centerVertical="true"
 
+        android:layout_centerVertical="true"
         android:background="#FFFFFF"
         tools:listitem="@layout/week_weather_card" />
 </RelativeLayout>

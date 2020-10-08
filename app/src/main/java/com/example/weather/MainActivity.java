@@ -18,12 +18,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import retrofit2.Call;
@@ -47,8 +50,12 @@ public class MainActivity extends AppCompatActivity {
     FusedLocationProviderClient mFusedLocationClient;
 
     TextView nameTextView, sunSetTextView, sunRiseTextView, feelsLikeTextView, cloudsTextView;
+    RecyclerView recyclerView;
+
 
     ImageView imageViewIcon;
+
+    WeatherWeekAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +69,13 @@ public class MainActivity extends AppCompatActivity {
         sunRiseTextView = findViewById(R.id.sunRiseTextView);
         cloudsTextView = findViewById(R.id.cloudsTextView);
         imageViewIcon = findViewById(R.id.imageViewIcon);
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(manager);
 
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
-
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -183,16 +194,13 @@ public class MainActivity extends AppCompatActivity {
         sunRiseTextView.setText("Восход: " + sdf.format(dateSunRise));
         sunSetTextView.setText("Закат: " + sdf.format(dateSunSet));
 
-
-
-
         Picasso.with(getApplicationContext())
                 .load("http://openweathermap.org/img/wn/" + codeWeather + "@2x.png")
                 .into(imageViewIcon);
 
-
-
-
+        ArrayList<Daily> nearEarthObjects = (ArrayList<Daily>) info.getDaily();
+        adapter = new WeatherWeekAdapter(MainActivity.this,nearEarthObjects);
+        recyclerView.setAdapter(adapter);
     }
 
 
