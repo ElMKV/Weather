@@ -2,43 +2,46 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="30dp"
+    android:layout_height="40dp"
     android:layout_marginLeft="20dp"
+    android:layout_marginTop="10dp"
     android:layout_marginRight="20dp">
 
     <TextView
         android:id="@+id/textViewNameWeek"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:gravity="center|left"
         android:text="Понедельник"
-        android:textSize="24sp" />
+        android:textSize="18sp" />
 
     <ImageView
         android:id="@+id/imageViewWeatherWeek"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="2"
+        android:layout_weight="3"
         app:srcCompat="@drawable/common_google_signin_btn_icon_dark" />
 
     <TextView
         android:id="@+id/textViewDayTemp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:gravity="center"
         android:singleLine="false"
         android:text="3"
-        android:textSize="24sp" />
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textViewNightTemp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:gravity="center"
         android:text="6"
-        android:textSize="24sp" />
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
 </LinearLayout>
