@@ -11,7 +11,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
     LocationManager locationManager;
     String codeWeather;
 
-    Button btnGetLocation;
     Double lat;
     Double lon;
     FusedLocationProviderClient mFusedLocationClient;
@@ -77,6 +75,13 @@ public class MainActivity extends AppCompatActivity {
 
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
 
+        checkEneable();
+
+
+
+    }
+
+    private void checkEneable() {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             OnGPS();
@@ -84,14 +89,15 @@ public class MainActivity extends AppCompatActivity {
         } else {
             getLocation();
             loadInfo();
+            Log.d("log", "checkEneable");
         }
+    }
 
-//        btnGetLocation.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkEneable();
+        Log.d("log", "onResume");
 
     }
 
@@ -125,12 +131,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Location locationGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             if (locationGPS != null) {
+                Log.d("LOG", "loc_null");
                 lat = locationGPS.getLatitude();
                 lon = locationGPS.getLongitude();
                 Log.d("loc", String.valueOf(lat));
                 Log.d("loc", String.valueOf(lon));
-
-
 
             } else {
                 Toast.makeText(this, "Unable to find location.", Toast.LENGTH_SHORT).show();
@@ -146,19 +151,20 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<Info> call, Response<Info> response) {
 
-                        Info info = response.body();
-                        getInfoAndInitView(info);
-
-
-
-
+                        try {
+                            Info info = response.body();
+                            getInfoAndInitView(info);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
 
                     }
 
                     @Override
                     public void onFailure(Call<Info> call, Throwable t) {
-                        Log.d("log", "Ошибка " +  t.toString());
+                        Log.d("LOG", "Ошибка " +  t.toString());
+                        feelsLikeTextView.setText("-");
 
 
 
@@ -170,37 +176,45 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getInfoAndInitView(Info info) {
-        Log.d("log", info.getTimezone());
 
-        nameTextView.setText(info.getTimezone());
 
-        DecimalFormat df = new DecimalFormat("###");
 
-        feelsLikeTextView.setText(df.format(info.getCurrent().getFeelsLike()) + "\u2103");
-        cloudsTextView.setText(info.getCurrent().getWeather().get(0).getDescription());
-        codeWeather = info.getCurrent().getWeather().get(0).getIcon();
+
+            Log.d("log", info.getTimezone());
+
+            nameTextView.setText(info.getTimezone());
+
+            DecimalFormat df = new DecimalFormat("###");
+
+            feelsLikeTextView.setText(df.format(info.getCurrent().getFeelsLike()) + "\u2103");
+            cloudsTextView.setText(info.getCurrent().getWeather().get(0).getDescription());
+            codeWeather = info.getCurrent().getWeather().get(0).getIcon();
 
 //        textViewWingSpeed.setText(speedWings + "");
 
-        Integer unixSunRise= info.getCurrent().getSunrise();
-        Integer unixSunSet= info.getCurrent().getSunset();
-        Date dateSunRise = new java.util.Date(unixSunRise*1000L);
-        Date dateSunSet = new java.util.Date(unixSunSet*1000L);
-        SimpleDateFormat sdf = new java.text.SimpleDateFormat("HH:mm");
+            Integer unixSunRise = info.getCurrent().getSunrise();
+            Integer unixSunSet = info.getCurrent().getSunset();
+            Date dateSunRise = new Date(unixSunRise * 1000L);
+            Date dateSunSet = new Date(unixSunSet * 1000L);
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
-        String normaldateSunRise = sdf.format(dateSunRise);
-        String normaldateSunSet = sdf.format(dateSunSet);
+            String normaldateSunRise = sdf.format(dateSunRise);
+            String normaldateSunSet = sdf.format(dateSunSet);
 
-        sunRiseTextView.setText("Восход: " + sdf.format(dateSunRise));
-        sunSetTextView.setText("Закат: " + sdf.format(dateSunSet));
+            sunRiseTextView.setText("Восход: " + sdf.format(dateSunRise));
+            sunSetTextView.setText("Закат: " + sdf.format(dateSunSet));
 
-        Picasso.with(getApplicationContext())
-                .load("http://openweathermap.org/img/wn/" + codeWeather + "@2x.png")
-                .into(imageViewIcon);
+            Picasso.with(getApplicationContext())
+                    .load("http://openweathermap.org/img/wn/" + codeWeather + "@2x.png")
+                    .into(imageViewIcon);
+            ArrayList<Daily> dailies = (ArrayList<Daily>) info.getDaily();
+            adapter = new WeatherWeekAdapter(MainActivity.this, dailies);
+            recyclerView.setAdapter(adapter);
 
-        ArrayList<Daily> nearEarthObjects = (ArrayList<Daily>) info.getDaily();
-        adapter = new WeatherWeekAdapter(MainActivity.this,nearEarthObjects);
-        recyclerView.setAdapter(adapter);
+
+
+
+
     }
 
 
