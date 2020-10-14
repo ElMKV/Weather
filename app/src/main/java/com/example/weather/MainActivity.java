@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -204,30 +206,47 @@ public class MainActivity extends AppCompatActivity {
         adapter = new WeatherWeekAdapter(MainActivity.this, dailies);
         recyclerView.setAdapter(adapter);
 
+        initGraphView(info);
+
+
+
+    }
+
+    private void initGraphView(Info info) {
         graph = (GraphView) findViewById(R.id.graph);
-        // Линейный график
-//             series = new LineGraphSeries<>(new DataPoint[]
-//                     {
-//                             new DataPoint(0, info.getHourly().get(0).getTemp()),
-//                             new DataPoint(1, info.getHourly().get(1).getTemp()),
-//                             new DataPoint(2, info.getHourly().get(2).getTemp()),
-//                             new DataPoint(3, info.getHourly().get(3).getTemp()),
-//                     });
 
         if (info.getHourly().size() > 0) {
             LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
             for (int i = 0; i < info.getHourly().size(); i++) {
                 DataPoint point = new DataPoint(i, info.getHourly().get(i).getTemp());
-                series.appendData(point, true, 1);
+                series.appendData(point, true, info.getHourly().size());
                 Log.d("graph", String.valueOf(info.getHourly().size()));
             }
             graph.getViewport().setScrollable(true); // enables horizontal scrolling
             graph.getViewport().setScrollableY(true); // enables vertical scrolling
             graph.getViewport().setScalable(true); // enables horizontal zooming and scrolling
             graph.getViewport().setScalableY(true); // enables vertical zooming and scrolling
-            
+            series.setColor(Color.WHITE);
+            graph.getGridLabelRenderer().setGridColor(Color.WHITE);
+
+            graph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);
+            graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
+            graph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);
+            graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
+            graph.getGridLabelRenderer().reloadStyles();
+
+            series.setAnimated(true);
+
+            DateFormat dateFormat = new SimpleDateFormat("HH");
+            Date date = new Date();
+
+            graph.getViewport().setXAxisBoundsManual(true);
+            graph.getViewport().setMinX(Double.parseDouble(dateFormat.format(date)));
+            graph.getViewport().setMaxX(Double.parseDouble(dateFormat.format(date)) + 4.0);
+
             graph.addSeries(series);
         }
+
     }
 
 }
