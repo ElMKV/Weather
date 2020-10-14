@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@drawable/background"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
@@ -15,8 +15,8 @@
         android:layout_marginTop="7dp"
         android:layout_marginEnd="7dp"
         android:layout_marginBottom="7dp"
-        app:cardBackgroundColor="#BFBFBF"
-        app:cardCornerRadius="10dp"
+        app:cardBackgroundColor="#14BFBFBF"
+        app:cardCornerRadius="20dp"
         app:cardElevation="7dp">
 
         <LinearLayout
@@ -152,6 +152,6 @@
 
         android:layout_centerVertical="true"
         android:layout_marginTop="10dp"
-        android:background="#FFFFFF"
+        android:background="#00FFFFFF"
         tools:listitem="@layout/week_weather_card" />
 </RelativeLayout>
