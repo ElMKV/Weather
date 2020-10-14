@@ -21,6 +21,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -35,6 +38,7 @@ import retrofit2.Response;
 import static android.app.AlertDialog.Builder;
 
 public class MainActivity extends AppCompatActivity {
+    LineGraphSeries<DataPoint> series;
     private static final int REQUEST_LOCATION = 1;
     String KEY = "14fcc3726972a2ee7e67a8a0a98c87d8";
     String UNITS = "metric";
@@ -47,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ImageView imageViewIcon;
     WeatherWeekAdapter adapter;
+    GraphView graph;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         cloudsTextView = findViewById(R.id.cloudsTextView);
         imageViewIcon = findViewById(R.id.imageViewIcon);
         recyclerView = findViewById(R.id.recyclerView);
+
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -74,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 manager.getOrientation());
         dividerItemDecoration.setDrawable(getDrawable(R.drawable.divider));
         recyclerView.addItemDecoration(dividerItemDecoration);
+
     }
 
     private void checkEneable() {
@@ -98,23 +106,23 @@ public class MainActivity extends AppCompatActivity {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 
-        final Builder builder = new Builder(this);
-        builder.setMessage("Enable GPS").setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        final AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
+            final Builder builder = new Builder(this);
+            builder.setMessage("Enable GPS").setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                }
+            }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            final AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
 
-}
+    }
 
     private void getLocation() {
         if (ActivityCompat.checkSelfPermission(
@@ -156,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<Info> call, Throwable t) {
-                        Log.d("LOG", "Ошибка " +  t.toString());
+                        Log.d("LOG", "Ошибка " + t.toString());
                         feelsLikeTextView.setText("-");
                         Toast.makeText(getApplicationContext(), "Проверьте подключение к интернету.", Toast.LENGTH_SHORT).show();
 
@@ -167,35 +175,59 @@ public class MainActivity extends AppCompatActivity {
 
     private void getInfoAndInitView(Info info) {
 
-            Log.d("log", info.getTimezone());
+        Log.d("log", info.getTimezone());
 
-            nameTextView.setText(info.getTimezone());
+        nameTextView.setText(info.getTimezone());
 
-            DecimalFormat df = new DecimalFormat("###");
+        DecimalFormat df = new DecimalFormat("###");
 
-            feelsLikeTextView.setText(df.format(info.getCurrent().getFeelsLike()) + "\u2103");
-            cloudsTextView.setText(info.getCurrent().getWeather().get(0).getDescription());
-            codeWeather = info.getCurrent().getWeather().get(0).getIcon();
+        feelsLikeTextView.setText(df.format(info.getCurrent().getFeelsLike()) + "\u2103");
+        cloudsTextView.setText(info.getCurrent().getWeather().get(0).getDescription());
+        codeWeather = info.getCurrent().getWeather().get(0).getIcon();
 
-            Integer unixSunRise = info.getCurrent().getSunrise();
-            Integer unixSunSet = info.getCurrent().getSunset();
-            Date dateSunRise = new Date(unixSunRise * 1000L);
-            Date dateSunSet = new Date(unixSunSet * 1000L);
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        Integer unixSunRise = info.getCurrent().getSunrise();
+        Integer unixSunSet = info.getCurrent().getSunset();
+        Date dateSunRise = new Date(unixSunRise * 1000L);
+        Date dateSunSet = new Date(unixSunSet * 1000L);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
-            String normaldateSunRise = sdf.format(dateSunRise);
-            String normaldateSunSet = sdf.format(dateSunSet);
+        String normaldateSunRise = sdf.format(dateSunRise);
+        String normaldateSunSet = sdf.format(dateSunSet);
 
-            sunRiseTextView.setText("Восход: " + sdf.format(dateSunRise));
-            sunSetTextView.setText("Закат: " + sdf.format(dateSunSet));
+        sunRiseTextView.setText("Восход: " + sdf.format(dateSunRise));
+        sunSetTextView.setText("Закат: " + sdf.format(dateSunSet));
 
-            Picasso.with(getApplicationContext())
-                    .load("http://openweathermap.org/img/wn/" + codeWeather + "@2x.png")
-                    .into(imageViewIcon);
-            ArrayList<Daily> dailies = (ArrayList<Daily>) info.getDaily();
-            adapter = new WeatherWeekAdapter(MainActivity.this, dailies);
-            recyclerView.setAdapter(adapter);
+        Picasso.with(getApplicationContext())
+                .load("http://openweathermap.org/img/wn/" + codeWeather + "@2x.png")
+                .into(imageViewIcon);
+        ArrayList<Daily> dailies = (ArrayList<Daily>) info.getDaily();
+        adapter = new WeatherWeekAdapter(MainActivity.this, dailies);
+        recyclerView.setAdapter(adapter);
 
+        graph = (GraphView) findViewById(R.id.graph);
+        // Линейный график
+//             series = new LineGraphSeries<>(new DataPoint[]
+//                     {
+//                             new DataPoint(0, info.getHourly().get(0).getTemp()),
+//                             new DataPoint(1, info.getHourly().get(1).getTemp()),
+//                             new DataPoint(2, info.getHourly().get(2).getTemp()),
+//                             new DataPoint(3, info.getHourly().get(3).getTemp()),
+//                     });
+
+        if (info.getHourly().size() > 0) {
+            LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+            for (int i = 0; i < info.getHourly().size(); i++) {
+                DataPoint point = new DataPoint(i, info.getHourly().get(i).getTemp());
+                series.appendData(point, true, 1);
+                Log.d("graph", String.valueOf(info.getHourly().size()));
+            }
+            graph.getViewport().setScrollable(true); // enables horizontal scrolling
+            graph.getViewport().setScrollableY(true); // enables vertical scrolling
+            graph.getViewport().setScalable(true); // enables horizontal zooming and scrolling
+            graph.getViewport().setScalableY(true); // enables vertical zooming and scrolling
+            
+            graph.addSeries(series);
+        }
     }
 
 }
