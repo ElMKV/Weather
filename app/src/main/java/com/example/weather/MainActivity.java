@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -40,20 +39,13 @@ public class MainActivity extends AppCompatActivity {
     String KEY = "14fcc3726972a2ee7e67a8a0a98c87d8";
     String UNITS = "metric";
     String LANG = "ru";
-
     LocationManager locationManager;
     String codeWeather;
-
     Double lat;
     Double lon;
-    FusedLocationProviderClient mFusedLocationClient;
-
     TextView nameTextView, sunSetTextView, sunRiseTextView, feelsLikeTextView, cloudsTextView;
     RecyclerView recyclerView;
-
-
     ImageView imageViewIcon;
-
     WeatherWeekAdapter adapter;
 
     @Override
@@ -100,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         checkEneable();
         Log.d("log", "onResume");
-
     }
 
     private void OnGPS() {
@@ -141,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                 loadInfo();
 
             } else {
-                Toast.makeText(this, "Unable to find location.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Не удалось найти местоположение", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -161,27 +152,20 @@ public class MainActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-
                     }
 
                     @Override
                     public void onFailure(Call<Info> call, Throwable t) {
                         Log.d("LOG", "Ошибка " +  t.toString());
                         feelsLikeTextView.setText("-");
-
-
+                        Toast.makeText(getApplicationContext(), "Проверьте подключение к интернету.", Toast.LENGTH_SHORT).show();
 
                     }
                 });
 
-
-
     }
 
     private void getInfoAndInitView(Info info) {
-
-
-
 
             Log.d("log", info.getTimezone());
 
@@ -192,8 +176,6 @@ public class MainActivity extends AppCompatActivity {
             feelsLikeTextView.setText(df.format(info.getCurrent().getFeelsLike()) + "\u2103");
             cloudsTextView.setText(info.getCurrent().getWeather().get(0).getDescription());
             codeWeather = info.getCurrent().getWeather().get(0).getIcon();
-
-//        textViewWingSpeed.setText(speedWings + "");
 
             Integer unixSunRise = info.getCurrent().getSunrise();
             Integer unixSunSet = info.getCurrent().getSunset();
@@ -214,11 +196,6 @@ public class MainActivity extends AppCompatActivity {
             adapter = new WeatherWeekAdapter(MainActivity.this, dailies);
             recyclerView.setAdapter(adapter);
 
-
-
-
-
     }
-
 
 }
