@@ -88,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
             getLocation();
-            loadInfo();
             Log.d("log", "checkEneable");
         }
     }
@@ -136,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
                 lon = locationGPS.getLongitude();
                 Log.d("loc", String.valueOf(lat));
                 Log.d("loc", String.valueOf(lon));
+                loadInfo();
 
             } else {
                 Toast.makeText(this, "Unable to find location.", Toast.LENGTH_SHORT).show();
