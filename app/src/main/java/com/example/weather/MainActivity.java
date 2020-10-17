@@ -227,13 +227,13 @@ public class MainActivity extends AppCompatActivity {
         textViewUviIndex.setText("Интенсивность УФ излучения - " + valueUvi);
         seekBarUvi.setProgress(valueUvi);
         seekBarUvi.setEnabled(false);
-        textViewWindDeg.setText("Направление ветра - " + GetComap(info.getCurrent().getWindDeg()));
+        textViewWindDeg.setText("Направление ветра - " + GetComapWing(info.getCurrent().getWindDeg()));
 
         initGraphView(info);
 
     }
 
-    static String GetComap(int index) {
+    static String GetComapWing(int index) {
         String wing = null;
 
         if (index == 360 || index == 0){
@@ -269,7 +269,6 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 0; i < info.getHourly().size(); i++) {
                 DataPoint point = new DataPoint(i, info.getHourly().get(i).getTemp());
                 series.appendData(point, true, info.getHourly().size());
-                Log.d("graph", String.valueOf(info.getHourly().size()));
             }
             graph.getViewport().setScrollable(true); // enables horizontal scrolling
             graph.getViewport().setScrollableY(true); // enables vertical scrolling
@@ -283,8 +282,6 @@ public class MainActivity extends AppCompatActivity {
             graph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);
             graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
             graph.getGridLabelRenderer().reloadStyles();
-
-            series.setAnimated(true);
 
             DateFormat dateFormat = new SimpleDateFormat("HH");
             Date date = new Date();

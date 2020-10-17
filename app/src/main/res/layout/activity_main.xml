@@ -15,96 +15,51 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
             android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="7dp"
-                android:layout_marginTop="7dp"
-                android:layout_marginEnd="7dp"
-                android:layout_marginBottom="7dp"
-                app:cardBackgroundColor="#00FDFCFC"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="5dp">
+                android:layout_margin="7dp"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="7dp"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:orientation="vertical"
-                            android:padding="7dp">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
-
-                                <TextView
-                                    android:id="@+id/cloudsTextView"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:gravity="center"
-                                    android:text="-"
-                                    android:textColor="#FFFFFF"
-                                    android:textSize="18sp" />
-
-                                <TextView
-                                    android:id="@+id/textView13"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_weight="1"
-                                    android:gravity="center"
-                                    android:text="ощущается как"
-                                    android:textColor="#FFFFFF"
-                                    android:textSize="18sp" />
-
-                            </LinearLayout>
-
-                        </LinearLayout>
+                        android:layout_gravity="center"
+                        android:orientation="vertical"
+                        android:padding="7dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-
-                                <ImageView
-                                    android:id="@+id/imageViewIcon"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:backgroundTintMode="multiply"
-                                    app:srcCompat="@android:drawable/ic_popup_sync" />
-
-                            </LinearLayout>
-
                             <TextView
-                                android:id="@+id/feelsLikeTextView"
+                                android:id="@+id/cloudsTextView"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:text="-"
                                 android:textColor="#FFFFFF"
-                                android:textSize="66dp"
-                                android:textStyle="bold" />
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/textView13"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="ощущается как"
+                                android:textColor="#FFFFFF"
+                                android:textSize="18sp" />
 
                         </LinearLayout>
 
@@ -112,35 +67,67 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="horizontal">
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageViewIcon"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:backgroundTintMode="multiply"
+                                app:srcCompat="@android:drawable/ic_popup_sync" />
+
+                        </LinearLayout>
 
                         <TextView
-                            android:id="@+id/sunRiseTextView"
+                            android:id="@+id/feelsLikeTextView"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="-"
                             android:textColor="#FFFFFF"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/sunSetTextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="-"
-                            android:textColor="#FFFFFF"
-                            android:textSize="18sp" />
+                            android:textSize="66dp"
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 
                 </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/sunRiseTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="-"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/sunSetTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="-"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
