@@ -221,17 +221,44 @@ public class MainActivity extends AppCompatActivity {
         textViewCloudsPer.setText(info.getCurrent().getClouds().toString() + " % облачности");
         textViewVisibility.setText(info.getCurrent().getVisibility().toString() + " метров видимость" );
         textViewWindSpeed.setText("Скорость ветра - " + info.getCurrent().getWindSpeed().toString() + " м/с");
-        textViewWindDeg.setText("Направление ветра - " + info.getCurrent().getWindDeg().toString());
         Log.d("LOGG" ,info.getCurrent().getWindSpeed().toString());
         double uvi = Math.ceil(info.getCurrent().getUvi());
         int valueUvi = (int) uvi;
         textViewUviIndex.setText("Интенсивность УФ излучения - " + valueUvi);
         seekBarUvi.setProgress(valueUvi);
         seekBarUvi.setEnabled(false);
-
+        textViewWindDeg.setText("Направление ветра - " + GetComap(info.getCurrent().getWindDeg()));
 
         initGraphView(info);
 
+    }
+
+    static String GetComap(int index) {
+        String wing = null;
+
+        if (index == 360 || index == 0){
+            wing = "С";
+        }
+        if (index>0 & index<90){
+            wing = "СВ";
+        }
+        if (index==90){
+            wing = "Юг";
+        }
+        if (index>90 & index<180){
+            wing = "ЮВ";
+        }
+        if (index == 180){
+            wing = "Ю";
+        }
+        if (index>180 & index<270){
+            wing = "ЮЗ";
+        }
+        if (index > 270 & index <360){
+            wing = "СЗ";
+        }
+
+        return wing;
     }
 
     private void initGraphView(Info info) {
