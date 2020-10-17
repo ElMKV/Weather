@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,8 +50,10 @@ public class MainActivity extends AppCompatActivity {
     String codeWeather;
     Double lat;
     Double lon;
-    TextView nameTextView, sunSetTextView, sunRiseTextView, feelsLikeTextView, cloudsTextView;
+    TextView nameTextView, sunSetTextView, sunRiseTextView, feelsLikeTextView, cloudsTextView, textViewPower, textViewHumidity,
+            textViewCloudsPer, textViewVisibility, textViewUviIndex, textViewWindSpeed, textViewWindDeg;
     RecyclerView recyclerView;
+    SeekBar seekBarUvi;
     ImageView imageViewIcon;
     WeatherWeekAdapter adapter;
     GraphView graph;
@@ -66,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getView() {
+        Log.d("LOGG", "getView");
         nameTextView = findViewById(R.id.name);
         feelsLikeTextView = findViewById(R.id.feelsLikeTextView);
         cloudsTextView = findViewById(R.id.cloudsTextView);
@@ -74,6 +78,14 @@ public class MainActivity extends AppCompatActivity {
         cloudsTextView = findViewById(R.id.cloudsTextView);
         imageViewIcon = findViewById(R.id.imageViewIcon);
         recyclerView = findViewById(R.id.recyclerView);
+        textViewPower = findViewById(R.id.textViewPower);
+        textViewHumidity = findViewById(R.id.textViewHumidity);
+        textViewCloudsPer = findViewById(R.id.textViewCloudsPer);
+        textViewVisibility = findViewById(R.id.textViewVisibility);
+        seekBarUvi = findViewById(R.id.seekBarUvi);
+        textViewWindSpeed = findViewById(R.id.textViewWindSpeed);
+        textViewWindDeg = findViewById(R.id.textViewWindDeg);
+        textViewUviIndex = findViewById(R.id.textViewUviIndex);
 
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -87,21 +99,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkEneable() {
+        Log.d("LOGG", "checkEneable");
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            Log.d("LOGG", "if checkEneable");
             OnGPS();
 
         } else {
             getLocation();
-            Log.d("log", "checkEneable");
+            Log.d("LOGG", "else checkEneable");
         }
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onRestart() {
+        Log.d("LOGG", "onResume");
+        super.onRestart();
         checkEneable();
-        Log.d("log", "onResume");
     }
 
     private void OnGPS() {
@@ -134,11 +148,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Location locationGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             if (locationGPS != null) {
-                Log.d("LOG", "loc_null");
                 lat = locationGPS.getLatitude();
                 lon = locationGPS.getLongitude();
                 Log.d("loc", String.valueOf(lat));
                 Log.d("loc", String.valueOf(lon));
+
                 loadInfo();
 
             } else {
@@ -155,12 +169,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<Info> call, Response<Info> response) {
 
-                        try {
-                            Info info = response.body();
-                            getInfoAndInitView(info);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        Info info = response.body();
+                        getInfoAndInitView(info);
 
                     }
 
@@ -178,8 +188,10 @@ public class MainActivity extends AppCompatActivity {
     private void getInfoAndInitView(Info info) {
 
         Log.d("log", info.getTimezone());
+        Log.d("LOGG", "getInfoAndInitView");
 
-        nameTextView.setText(info.getTimezone());
+
+        nameTextView.setText("Регион - " + info.getTimezone());
 
         DecimalFormat df = new DecimalFormat("###");
 
@@ -193,8 +205,6 @@ public class MainActivity extends AppCompatActivity {
         Date dateSunSet = new Date(unixSunSet * 1000L);
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
-        String normaldateSunRise = sdf.format(dateSunRise);
-        String normaldateSunSet = sdf.format(dateSunSet);
 
         sunRiseTextView.setText("Восход: " + sdf.format(dateSunRise));
         sunSetTextView.setText("Закат: " + sdf.format(dateSunSet));
@@ -206,9 +216,21 @@ public class MainActivity extends AppCompatActivity {
         adapter = new WeatherWeekAdapter(MainActivity.this, dailies);
         recyclerView.setAdapter(adapter);
 
+        textViewPower.setText("Давление - " + Math.ceil( info.getCurrent().getPressure()/1.333) + " мм.рт.ст.");//получаем мм.рт.ст.
+        textViewHumidity.setText("Влажность - " + info.getCurrent().getHumidity().toString());
+        textViewCloudsPer.setText(info.getCurrent().getClouds().toString() + " % облачности");
+        textViewVisibility.setText(info.getCurrent().getVisibility().toString() + " метров видимость" );
+        textViewWindSpeed.setText("Скорость ветра - " + info.getCurrent().getWindSpeed().toString() + " м/с");
+        textViewWindDeg.setText("Направление ветра - " + info.getCurrent().getWindDeg().toString());
+        Log.d("LOGG" ,info.getCurrent().getWindSpeed().toString());
+        double uvi = Math.ceil(info.getCurrent().getUvi());
+        int valueUvi = (int) uvi;
+        textViewUviIndex.setText("Интенсивность УФ излучения - " + valueUvi);
+        seekBarUvi.setProgress(valueUvi);
+        seekBarUvi.setEnabled(false);
+
+
         initGraphView(info);
-
-
 
     }
 

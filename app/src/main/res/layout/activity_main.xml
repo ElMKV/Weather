@@ -15,7 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card"
@@ -25,7 +25,7 @@
                 android:layout_marginTop="7dp"
                 android:layout_marginEnd="7dp"
                 android:layout_marginBottom="7dp"
-                app:cardBackgroundColor="#14BFBFBF"
+                app:cardBackgroundColor="#00FDFCFC"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="5dp">
 
@@ -46,16 +46,6 @@
                             android:layout_gravity="center"
                             android:orientation="vertical"
                             android:padding="7dp">
-
-                            <TextView
-                                android:id="@+id/name"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="Город"
-                                android:textColor="#FFFFFF"
-                                android:textSize="30sp"
-                                android:textStyle="bold" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -167,6 +157,99 @@
                 android:id="@+id/graph"
                 android:layout_width="match_parent"
                 android:layout_height="200dip" />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:text="Город"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/textViewPower"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:text="Давление"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textViewHumidity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:text="Влажность"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textViewCloudsPer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:text="Процент облаков"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textViewVisibility"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:text="Видимость"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textViewUviIndex"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:text="Интенсивность УФ излучения -"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
+
+                <SeekBar
+                    android:id="@+id/seekBarUvi"
+                    style="@style/Widget.AppCompat.SeekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginBottom="7dp"
+                    android:clickable="false"
+                    android:indeterminate="false"
+                    android:max="11"
+                    android:progressDrawable="@drawable/back_seekbar_gardient"
+                    android:thumb="@drawable/shap_progress" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textViewWindSpeed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:text="Скорость ветра"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textViewWindDeg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:text="Направление"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
