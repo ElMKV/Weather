@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             textViewCloudsPer, textViewVisibility, textViewUviIndex, textViewWindSpeed, textViewWindDeg;
     RecyclerView recyclerView;
     SeekBar seekBarUvi;
+    ProgressBar progressBar;
     ImageView imageViewIcon;
     WeatherWeekAdapter adapter;
     GraphView graph;
@@ -322,6 +324,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         textViewWindSpeed = findViewById(R.id.textViewWindSpeed);
         textViewWindDeg = findViewById(R.id.textViewWindDeg);
         textViewUviIndex = findViewById(R.id.textViewUviIndex);
+        progressBar = findViewById(R.id.progressBar);
 
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager manager = new LinearLayoutManager(this);
