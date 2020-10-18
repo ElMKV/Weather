@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 Log.d(TAG, "Can get location");
                 if (isGPS) {
                     // from GPS
-                    Log.d("LOC", "GPS on");
+                    Log.d(TAG, "GPS on");
                     locationManager.requestLocationUpdates(
                             LocationManager.GPS_PROVIDER,
                             MIN_TIME_BW_UPDATES,
@@ -148,14 +148,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
                     if (locationManager != null) {
                         loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                        if (loc != null)
-                            Log.d("LOC", "loc != null");
-
-                        updateUI(loc);
+                        if (loc != null) {
+                            Log.d(TAG, "loc != null");
+                            updateUI(loc);
+                        }
                     }
                 } else if (isNetwork) {
                     // from Network Provider
-                    Log.d("LOC", "NETWORK_PROVIDER on");
+                    Log.d(TAG, "NETWORK_PROVIDER on");
                     locationManager.requestLocationUpdates(
                             LocationManager.NETWORK_PROVIDER,
                             MIN_TIME_BW_UPDATES,
@@ -165,16 +165,22 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                         loc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                         if (loc != null)
                             updateUI(loc);
+                        Log.d(TAG, "loc != null");
+
                     }
                 } else {
                     loc.setLatitude(0);
                     loc.setLongitude(0);
                     updateUI(loc);
+                    Log.d(TAG, "lt = 0 lon = 0 ");
+
                 }
             } else {
-                Log.d("LOC", "Can't get location");
+                Log.d(TAG, "Can't get location");
             }
         } catch (SecurityException e) {
+            Log.d(TAG, "catch");
+
             e.printStackTrace();
         }
     }
@@ -284,7 +290,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     private void updateUI(Location loc) {
 
-        Log.d("LOC", "updateUI");
+        Log.d(TAG, "updateUI");
         lat = loc.getLatitude();
         lon = loc.getLongitude();
         loadInfo();
@@ -299,7 +305,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     }
 
     private void getView() {
-        Log.d("LOGG", "getView");
+        Log.d(TAG, "getView");
         nameTextView = findViewById(R.id.name);
         feelsLikeTextView = findViewById(R.id.feelsLikeTextView);
         cloudsTextView = findViewById(R.id.cloudsTextView);
@@ -325,6 +331,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 manager.getOrientation());
         dividerItemDecoration.setDrawable(getDrawable(R.drawable.divider));
         recyclerView.addItemDecoration(dividerItemDecoration);
+        seekBarUvi.setEnabled(false);
 
     }
 
@@ -332,15 +339,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     @Override
     protected void onRestart() {
-        Log.d("LOGG", "onRestart");
+        Log.d(TAG, "onRestart");
         super.onRestart();
         getConectionCheck();
 
 
     }
-
-
-
 
     private void loadInfo() {
         NetworkService.getInstance()
@@ -369,7 +373,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     private void getInfoAndInitView(Info info) {
 
         Log.d("log", info.getTimezone());
-        Log.d("LOGG", "getInfoAndInitView");
+        Log.d(TAG, "getInfoAndInitView");
 
 
         nameTextView.setText("Регион - " + info.getTimezone());
@@ -402,12 +406,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         textViewCloudsPer.setText(info.getCurrent().getClouds().toString() + " % облачности");
         textViewVisibility.setText(info.getCurrent().getVisibility().toString() + " метров видимость" );
         textViewWindSpeed.setText("Скорость ветра - " + info.getCurrent().getWindSpeed().toString() + " м/с");
-        Log.d("LOGG" ,info.getCurrent().getWindSpeed().toString());
+        Log.d(TAG ,info.getCurrent().getWindSpeed().toString());
         double uvi = Math.ceil(info.getCurrent().getUvi());
         int valueUvi = (int) uvi;
         textViewUviIndex.setText("Интенсивность УФ излучения - " + valueUvi);
         seekBarUvi.setProgress(valueUvi);
-        seekBarUvi.setEnabled(false);
         textViewWindDeg.setText("Направление ветра - " + GetComapWing(info.getCurrent().getWindDeg()));
 
         initGraphView(info);
@@ -456,16 +459,15 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             graph.getViewport().setScalable(true); // enables horizontal zooming and scrolling
             graph.getViewport().setScalableY(true); // enables vertical zooming and scrolling
             series.setColor(Color.WHITE);
-            graph.getGridLabelRenderer().setGridColor(Color.WHITE);
 
-            graph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);
-            graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
-            graph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);
-            graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
             graph.getGridLabelRenderer().reloadStyles();
 
             DateFormat dateFormat = new SimpleDateFormat("HH");
             Date date = new Date();
+
+            graph.getGridLabelRenderer().setGridColor(Color.WHITE);
+            graph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);
+            graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
 
             graph.getViewport().setXAxisBoundsManual(true);
             graph.getViewport().setMinX(Double.parseDouble(dateFormat.format(date)));
