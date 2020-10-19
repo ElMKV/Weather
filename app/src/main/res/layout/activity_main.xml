@@ -136,6 +136,18 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/textViewAlert"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:drawableRight="@android:drawable/ic_dialog_alert"
+                android:gravity="center"
+                android:text="TextView"
+                android:textColor="#FFFF9100"
+                android:textSize="18sp"
+                app:drawableTint="#FF9100" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
@@ -157,7 +169,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="7dp"
-                android:text="Город"
+                android:text="Часовой пояс"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 android:textStyle="normal" />

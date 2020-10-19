@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     private int fileSize = 0;
 
     TextView nameTextView, sunSetTextView, sunRiseTextView, feelsLikeTextView, cloudsTextView, textViewPower, textViewHumidity,
-            textViewCloudsPer, textViewVisibility, textViewUviIndex, textViewWindSpeed, textViewWindDeg;
+            textViewCloudsPer, textViewVisibility, textViewUviIndex, textViewWindSpeed, textViewWindDeg, textViewAlert;
     RecyclerView recyclerView;
     SeekBar seekBarUvi;
     ImageView imageViewIcon;
@@ -120,9 +120,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    // close the progress bar dialog
-
-
 
                 }
 
@@ -153,6 +150,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             }
         }).start();
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     private void getConectionCheck() {
@@ -392,6 +394,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     private void getView() {
         Log.d(TAG, "getView");
+        textViewAlert = findViewById(R.id.textViewAlert);
         nameTextView = findViewById(R.id.name);
         feelsLikeTextView = findViewById(R.id.feelsLikeTextView);
         cloudsTextView = findViewById(R.id.cloudsTextView);
@@ -505,6 +508,18 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         textViewUviIndex.setText("Интенсивность УФ излучения - " + valueUvi);
         seekBarUvi.setProgress(valueUvi);
         textViewWindDeg.setText("Направление ветра - " + GetComapWing(info.getCurrent().getWindDeg()));
+        try {
+            if (info.getAlerts().get(0).getEvent() != null) {
+                textViewAlert.setText(info.getAlerts().get(0).getEvent());
+            } else {
+                textViewAlert.setVisibility(View.INVISIBLE);
+            }
+        }
+        catch (Exception t){
+            Log.d(TAG, t.toString());
+            textViewAlert.setVisibility(View.INVISIBLE);
+
+        }
 
         initGraphView(info);
 
