@@ -324,7 +324,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         textViewWindSpeed = findViewById(R.id.textViewWindSpeed);
         textViewWindDeg = findViewById(R.id.textViewWindDeg);
         textViewUviIndex = findViewById(R.id.textViewUviIndex);
-        progressBar = findViewById(R.id.progressBar);
 
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -364,7 +363,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
                     @Override
                     public void onFailure(Call<Info> call, Throwable t) {
-                        Log.d("LOG", "Ошибка " + t.toString());
+                        Log.d(TAG, "Ошибка " + t.toString());
                         feelsLikeTextView.setText("-");
                         Toast.makeText(getApplicationContext(), "Проверьте подключение к интернету.", Toast.LENGTH_SHORT).show();
 
@@ -375,7 +374,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     private void getInfoAndInitView(Info info) {
 
-        Log.d("log", info.getTimezone());
+        Log.d(TAG, info.getTimezone());
         Log.d(TAG, "getInfoAndInitView");
 
 

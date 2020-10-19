@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworkService {
     private static NetworkService mInstance;
-    private static final String BASE_URL = "http://api.openweathermap.org";
+    private static final String BASE_URL = "https://api.openweathermap.org";
     private Retrofit mRetrofit;
 
     private NetworkService() {
