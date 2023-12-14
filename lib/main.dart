@@ -25,13 +25,13 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: [
-        Locale('ru'), // English
+        const Locale('ru'), // English
       ],
       theme: ThemeData(
         useMaterial3: true,
       ),
       home:
-          Scaffold(backgroundColor: Colors.blueAccent, body: const HomePage()),
+          const Scaffold(backgroundColor: Colors.blueAccent, body: HomePage()),
     );
   }
 }
@@ -55,20 +55,24 @@ class HomePage extends StatelessWidget {
             } else if (state is WeatherErrorState) {
               return Center(child: Text(state.pageState.error));
             } else if (state is WeatherInitial) {
-              return SizedBox();
+              return const SizedBox();
             }
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            return ListView(
               children: [
+                const SizedBox(height: 100,),
                 Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.place, size: 35, color: Colors.white,),
+                        const Icon(
+                          Icons.place,
+                          size: 35,
+                          color: Colors.white,
+                        ),
                         Text(
                           '${state.pageState.weathers.name},',
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 30,
                               color: Colors.white,
                               fontWeight: FontWeight.bold),
@@ -77,17 +81,16 @@ class HomePage extends StatelessWidget {
                     ),
                     Text(
                       '${DateTime.now().day}, ${DateFormat('EEEE').format(DateTime.now())}',
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 30,
                           color: Colors.white,
                           fontWeight: FontWeight.bold),
                     ),
-
                     Stack(
                       children: [
                         Text(
                           '${state.pageState.weathers.main.temp?.round()}°',
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 200,
                               fontWeight: FontWeight.bold,
                               color: Colors.white),
@@ -109,16 +112,7 @@ class HomePage extends StatelessWidget {
                             ))
                       ],
                     ),
-
-                    // Text(
-                    //   'Ощущается как',
-                    //   style: TextStyle(fontSize: 25),
-                    // ),
-                    // Text(
-                    //   '${state.pageState.weathers.main.feelsLike?.round()},',
-                    //   style: TextStyle(fontSize: 25),
-                    // ),
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     ),
                     Center(
@@ -127,32 +121,31 @@ class HomePage extends StatelessWidget {
                         height: 100.0,
                         decoration: BoxDecoration(
                           color: Colors.blue[50],
-                          borderRadius: BorderRadius.all(Radius.circular(60.0)),
+                          borderRadius: const BorderRadius.all(Radius.circular(60.0)),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Text(
-                              'Min ${state.pageState.weathers.main.tempMin }',
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.blue,
-                                      fontWeight: FontWeight.bold),
+                              'Min ${state.pageState.weathers.main.tempMin}',
+                              style: const TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.bold),
                             ),
                             Text(
                               'Max ${state.pageState.weathers.main.tempMax}',
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.blue,
-                                      fontWeight: FontWeight.bold),
+                              style: const TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
                       ),
                     ),
                   ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
+                )
               ],
             );
           },
