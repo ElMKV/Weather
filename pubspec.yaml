@@ -43,7 +43,8 @@ dependencies:
   intl: ^0.18.1
   flutter_svg: ^2.0.5
   hexcolor: 3.0.0
-  flutter_localization: 0.1.13
+  firebase_auth: ^4.15.3
+  firebase_core: ^2.24.2
 
 
 

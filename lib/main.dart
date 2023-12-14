@@ -1,19 +1,20 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:weather/core/constants/constant.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather/core/globals/globals.dart';
 import 'package:weather/data/model/weather.dart';
 import 'package:intl/intl.dart';
 
 import 'package:weather/futures/main/bloc/weather_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
+Future<void> main() async {
 
-void main() {
   runApp(const MyApp());
   initializeDateFormatting();
-
 }
 
 class MyApp extends StatelessWidget {
@@ -23,32 +24,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        scaffoldMessengerKey: snackbarKey,
         title: 'Flutter Demo',
         theme: ThemeData(
           useMaterial3: true,
         ),
-        home: Scaffold(
-            body: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              HexColor("#0700FF"),
-              HexColor("#000000"),
-            ],
-          )),
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 50, 20, 0),
-                child: Container(child: HomePage()),
-              ),
-            ],
-          ),
-        )));
+        home: Scaffold(backgroundColor: Colors.transparent, body: HomePage()));
   }
 }
 
@@ -69,148 +50,231 @@ class HomePage extends StatelessWidget {
             if (state is WeatherLoadingState) {
               return const Center(child: CircularProgressIndicator());
             } else if (state is WeatherErrorState) {
-              return Center(child: Text(state.pageState.error));
+              return Center(child: Text(state.pageState.error, style: TextStyle(color: Colors.white),));
             } else if (state is WeatherInitial) {
               return const SizedBox();
             }
-            return Column(
-              children: [
-                Row(
+            return SingleChildScrollView(
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      HexColor("#0700FF"),
+                      HexColor("#000000"),
+                    ],
+                  ),
+                ),
+                child: Column(
                   children: [
-                    SvgPicture.asset(
-                      fit: BoxFit.scaleDown,
-                      'assets/pin.svg',
+                    SizedBox(height: 50,),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 32.0),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            fit: BoxFit.scaleDown,
+                            'assets/pin.svg',
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Text(
+                            '${state.pageState.weathers.city.name}, ${state.pageState.weathers.city.country}',
+                            style: TextStyle(fontSize: 20, color: Colors.white),
+                          )
+                        ],
+                      ),
                     ),
                     SizedBox(
-                      width: 15,
+                      height: 30,
+                    ),
+                    getSvg(
+                        state.pageState.weathers.list.first.weather.first.icon,
+                        180,
+                        180),
+                    Text(
+                      '${state.pageState.weathers.list.first.main.temp?.round()}℃',
+                      style: TextStyle(
+                          fontSize: 72,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      '${state.pageState.weathers.city.name}, ${state.pageState.weathers.city.country}',
-                      style: TextStyle(fontSize: 20, color: Colors.white),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                getSvg(state.pageState.weathers.list.first.weather.first.icon, 180, 180),
-                Text(
-                  '${state.pageState.weathers.list.first.main.temp?.round()}℃',
-                  style: TextStyle(
-                      fontSize: 72,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  '${state.pageState.weathers.list.first.weather.first.description}',
-                  style: TextStyle(
-                      fontSize: 24,
-                      color: Colors.white,
-                      fontWeight: FontWeight.normal),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Макс: ${state.pageState.weathers.list.first.main.tempMax?.round()}℃ ',
+                      '${state.pageState.weathers.list.first.weather.first.description}',
                       style: TextStyle(
                           fontSize: 24,
                           color: Colors.white,
                           fontWeight: FontWeight.normal),
                     ),
-                    Text(
-                      'Мин: ${state.pageState.weathers.list.first.main.tempMin?.round()}℃',
-                      style: TextStyle(
-                          fontSize: 24,
-                          color: Colors.white,
-                          fontWeight: FontWeight.normal),
-                    ),
-                  ],
-                ),
-                Container(
-                    height: 230,
-                    width: 327,
-                    decoration: BoxDecoration(
-                        color: Colors.white10,
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                    child: Column(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Text('Сегодня',
-                                  style: TextStyle(
-                                      fontSize: 17,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.normal)),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Text(DateFormat.MMMMd('ru_RU').format(DateTime.now()).toString(),
-                                  style: TextStyle(
-                                      fontSize: 17,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.normal)),
-                            )
-                          ],
+                        Text(
+                          'Макс: ${state.pageState.weathers.list.first.main.tempMax?.round()}℃ ',
+                          style: TextStyle(
+                              fontSize: 24,
+                              color: Colors.white,
+                              fontWeight: FontWeight.normal),
                         ),
-                        Divider(
-                          color: Colors.white,
-                          height: 1,
+                        Text(
+                          'Мин: ${state.pageState.weathers.list.first.main.tempMin?.round()}℃',
+                          style: TextStyle(
+                              fontSize: 24,
+                              color: Colors.white,
+                              fontWeight: FontWeight.normal),
                         ),
-                        SizedBox(
-                          height: 173,
-                          width: 327,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            shrinkWrap: true,
-                            itemCount: state.pageState.weathers.list.length,
-                            itemBuilder: (context, index) {
-                              int ts = state.pageState.weathers.list[index].dt!;
-                              int date = ts * 1000;
-                              DateTime dt =
-                                  DateTime.fromMillisecondsSinceEpoch(date);
-                              String time = DateFormat('kk:mm').format(dt);
-
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SizedBox(
-                                  width: 74,
-                                  height: 142,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Text(
-                                        time,
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 15),
-                                      ),
-                                      getSvg(state.pageState.weathers
-                                          .list[index].weather.first.icon,30, 30),
-                                      Text(
-                                        state.pageState.weathers.list[index]
-                                                .main.temp
-                                                ?.round()
-                                                .toString() ??
-                                            ' ',
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 15),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        )
                       ],
-                    ))
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Container(
+                        height: 230,
+                        width: 327,
+                        decoration: BoxDecoration(
+                            color: Colors.white10,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Text('Сегодня',
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.normal)),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Text(
+                                      DateFormat.MMMMd('ru_RU')
+                                          .format(DateTime.now())
+                                          .toString(),
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.normal)),
+                                )
+                              ],
+                            ),
+                            Divider(
+                              color: Colors.white,
+                              height: 1,
+                            ),
+                            SizedBox(
+                              height: 173,
+                              width: 327,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount: state.pageState.weathers.list.length,
+                                itemBuilder: (context, index) {
+                                  int ts =
+                                      state.pageState.weathers.list[index].dt!;
+                                  int date = ts * 1000;
+                                  DateTime dt =
+                                      DateTime.fromMillisecondsSinceEpoch(date);
+                                  String time = DateFormat('kk:mm').format(dt);
 
-                // Text(state.pageState.weathers.main.temp.toString())
-              ],
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SizedBox(
+                                      width: 74,
+                                      height: 142,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Text(
+                                            time,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15),
+                                          ),
+                                          getSvg(
+                                              state
+                                                  .pageState
+                                                  .weathers
+                                                  .list[index]
+                                                  .weather
+                                                  .first
+                                                  .icon,
+                                              30,
+                                              30),
+                                          Text(
+                                            '${state.pageState.weathers.list[index].main.temp?.round()}℃',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        )),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Container(
+                        height: 115,
+                        width: 327,
+                        decoration: BoxDecoration(
+                            color: Colors.white10,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        child: Column(
+                          children: [
+                            ListTile(
+                              leading: SvgPicture.asset(
+                                'assets/Wind.svg',
+                                width: 24,
+                                height: 24,
+                              ),
+                              title: Text(
+                                '${state.pageState.weathers.list.first.wind.speed.round()} м/с',
+                                style: TextStyle(color: Colors.white12),
+                              ),
+                              trailing: Text(
+                                getCurrentWindSide(state.pageState.weathers.list.first.wind.deg),
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            ListTile(
+                              leading: SvgPicture.asset(
+                                'assets/Drop.svg',
+                                width: 24,
+                                height: 24,
+                              ),
+                              title: Text(
+                                '${state.pageState.weathers.list.first.main.humidity?.round()}%',
+                                style: TextStyle(color: Colors.white12),
+                              ),
+                              trailing: Text(
+                                getCurrentHum(state.pageState.weathers.list.first.main.humidity ?? 0),
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ],
+                        )),
+                    SizedBox(
+                      height: 100,
+                    ),
+
+                    // Text(state.pageState.weathers.main.temp.toString())
+                  ],
+                ),
+              ),
             );
           },
         ));
@@ -264,5 +328,40 @@ class HomePage extends StatelessWidget {
           );
         }
     }
+  }
+
+  String getCurrentWindSide(int deg) {
+    if (deg <= 90) {
+      return 'Ветер северо-восточный';
+    }
+    else if (deg > 90 && deg <= 180) {
+      return 'Ветер юго-восточный';
+    }
+    else if (deg > 180 && deg <= 270) {
+      return 'Ветер юго-западный';
+    }
+    else if (deg > 270 && deg <= 360) {
+      return 'Ветер северо-восточный';
+    }
+    else {
+      return 'Нет данных';
+    }
+
+  }
+  String getCurrentHum(double hum) {
+    print(hum);
+    if (hum <= 30) {
+      return 'Низкая Влажность';
+    }
+    else if (hum <= 66) {
+      return 'Средняя Влажность';
+    }
+    else if (hum <= 100) {
+      return 'Высокая Влажность';
+    }
+    else {
+      return 'Нет данных';
+    }
+
   }
 }

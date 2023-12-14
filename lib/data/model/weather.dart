@@ -44,11 +44,14 @@ class Listes {
   final Main main;
   @JsonKey(name: 'weather')
   final List<Weather> weather;
+  @JsonKey(name: 'wind')
+  final Wind wind;
 
   const Listes({
     this.dt,
     this.main = const Main(),
     this.weather = const [],
+    this.wind = const Wind(),
   });
 
   factory Listes.fromJson(Map<String, dynamic> json) => _$ListesFromJson(json);
@@ -59,6 +62,7 @@ class Listes {
     int? dt,
     Main? main,
     List<Weather>? weather,
+    Wind? wind,
   }) {
     return Listes(
       dt: dt ?? this.dt,
@@ -144,12 +148,15 @@ class Main {
   final double? tempMin;
   @JsonKey(name: 'temp_max')
   final double? tempMax;
+  @JsonKey(name: 'humidity')
+  final double? humidity;
 
   const Main({
     this.temp,
     this.feelsLike,
     this.tempMin,
     this.tempMax,
+    this.humidity,
   });
 
   factory Main.fromJson(Map<String, dynamic> json) => _$MainFromJson(json);
@@ -161,12 +168,44 @@ class Main {
     double? feelsLike,
     double? tempMin,
     double? tempMax,
+    double? humidity,
   }) {
     return Main(
       temp: temp ?? this.temp,
       feelsLike: feelsLike ?? this.feelsLike,
       tempMin: tempMin ?? this.tempMin,
       tempMax: tempMax ?? this.tempMax,
+      humidity: humidity ?? this.humidity,
+    );
+  }
+}
+
+@JsonSerializable()
+class Wind {
+  @JsonKey(name: 'speed')
+  final double speed;
+  @JsonKey(name: 'deg')
+  final int deg;
+
+  const Wind({
+    this.speed = 0,
+    this.deg = 0,
+
+  });
+
+  factory Wind.fromJson(Map<String, dynamic> json) => _$WindFromJson(json);
+
+  Map<String, dynamic> toJson() => _$WindToJson(this);
+
+  Wind copyWith({
+    double? speed,
+    int? deg,
+
+  }) {
+    return Wind(
+      speed: speed ?? this.speed,
+      deg: deg ?? this.deg,
+
     );
   }
 }

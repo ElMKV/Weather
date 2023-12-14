@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>371198022746-n1cr5c7lssot0ul4dc5liof6dnn9aeu1.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCy2HxKZ0QZE5G4v1wl-nV5pN3fO680qjM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>371198022746</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.weather</string>
+	<key>PROJECT_ID</key>
+	<string>cloudchat-5583c</string>
+	<key>STORAGE_BUCKET</key>
+	<string>cloudchat-5583c.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:371198022746:ios:334c0b51a485b0bb6af463</string>
+	<key>DATABASE_URL</key>
+	<string>https://cloudchat-5583c.firebaseio.com</string>
+</dict>
+</plist>

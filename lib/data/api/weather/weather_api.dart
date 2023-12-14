@@ -11,7 +11,6 @@ class WeatherApi {
     try {
       news = await dio.get('${AppConstants.base}/data/2.5/forecast',
           queryParameters: {"appid": token ,'lat': lat, 'lon': lon, 'units' : 'metric', 'lang': 'ru'});
-
       print('STATUS ${news.statusMessage}');
       print('DATA ${news.data}');
       return news;

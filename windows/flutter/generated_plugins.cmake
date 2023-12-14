@@ -3,7 +3,8 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-  flutter_localization
+  firebase_auth
+  firebase_core
   geolocator_windows
 )
 
