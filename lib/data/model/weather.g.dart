@@ -17,12 +17,14 @@ Weathers _$WeathersFromJson(Map<String, dynamic> json) => Weathers(
       main: json['main'] == null
           ? const Main()
           : Main.fromJson(json['main'] as Map<String, dynamic>),
+      name: json['name'] as String? ?? 'Нет данных',
     );
 
 Map<String, dynamic> _$WeathersToJson(Weathers instance) => <String, dynamic>{
       'coord': instance.coord,
       'weather': instance.weather,
       'main': instance.main,
+      'name': instance.name,
     };
 
 Coord _$CoordFromJson(Map<String, dynamic> json) => Coord(

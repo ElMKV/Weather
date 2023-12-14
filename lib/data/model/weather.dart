@@ -8,13 +8,18 @@ part 'weather.g.dart';
 class Weathers {
   @JsonKey(name: 'coord')
   final Coord coord;
+  @JsonKey(name: 'weather')
   final List<Weather> weather;
+  @JsonKey(name: 'main')
   final Main main;
+  @JsonKey(name: 'name')
+  final String name;
 
   const Weathers({
     this.coord = const Coord(),
     this.weather = const [],
     this.main = const Main(),
+    this.name = 'Нет данных',
   });
 
   factory Weathers.fromJson(Map<String, dynamic> json) =>
@@ -26,11 +31,13 @@ class Weathers {
     Coord? coord,
     List<Weather>? weather,
     Main? main,
+    String? name,
   }) {
     return Weathers(
       coord: coord ?? this.coord,
       weather: weather ?? this.weather,
       main: main ?? this.main,
+      name: name ?? this.name,
     );
   }
 }
@@ -80,7 +87,8 @@ class Weather {
     this.icon = '',
   });
 
-  factory Weather.fromJson(Map<String, dynamic> json) => _$WeatherFromJson(json);
+  factory Weather.fromJson(Map<String, dynamic> json) =>
+      _$WeatherFromJson(json);
 
   Map<String, dynamic> toJson() => _$WeatherToJson(this);
 
