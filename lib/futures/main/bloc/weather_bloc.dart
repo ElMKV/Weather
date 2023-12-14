@@ -22,7 +22,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
           .getWeather(
           AppConstants.token, position.latitude, position.longitude)
           .then((value) async {
-        if (value?.weather.isNotEmpty ?? false) {
+        if (value != null) {
           emit(WeatherUpState(state.pageState.copyWith(
             weathers: value,
           )));

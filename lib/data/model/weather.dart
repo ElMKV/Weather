@@ -4,22 +4,19 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'weather.g.dart';
 
+
 @JsonSerializable()
 class Weathers {
-  @JsonKey(name: 'coord')
-  final Coord coord;
-  @JsonKey(name: 'weather')
-  final List<Weather> weather;
-  @JsonKey(name: 'main')
-  final Main main;
-  @JsonKey(name: 'name')
-  final String name;
+  @JsonKey(name: 'list')
+  final List<Listes> list;
+  @JsonKey(name: 'city')
+  final City city;
+
 
   const Weathers({
-    this.coord = const Coord(),
-    this.weather = const [],
-    this.main = const Main(),
-    this.name = 'Нет данных',
+    this.list = const [],
+    this.city = const City(),
+
   });
 
   factory Weathers.fromJson(Map<String, dynamic> json) =>
@@ -28,46 +25,76 @@ class Weathers {
   Map<String, dynamic> toJson() => _$WeathersToJson(this);
 
   Weathers copyWith({
-    Coord? coord,
-    List<Weather>? weather,
-    Main? main,
-    String? name,
+    List<Listes>? list,
+    City? city,
   }) {
     return Weathers(
-      coord: coord ?? this.coord,
-      weather: weather ?? this.weather,
-      main: main ?? this.main,
-      name: name ?? this.name,
+      list: list ?? this.list,
+      city: city ?? this.city,
+
     );
   }
 }
 
 @JsonSerializable()
-class Coord {
-  @JsonKey(name: 'lon')
-  final double lon;
-  @JsonKey(name: 'lat')
-  final double lat;
+class Listes {
+  @JsonKey(name: 'dt')
+  final int? dt;
+  @JsonKey(name: 'main')
+  final Main main;
+  @JsonKey(name: 'weather')
+  final List<Weather> weather;
 
-  const Coord({
-    this.lon = 0,
-    this.lat = 0,
+  const Listes({
+    this.dt,
+    this.main = const Main(),
+    this.weather = const [],
   });
 
-  factory Coord.fromJson(Map<String, dynamic> json) => _$CoordFromJson(json);
+  factory Listes.fromJson(Map<String, dynamic> json) => _$ListesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CoordToJson(this);
+  Map<String, dynamic> toJson() => _$ListesToJson(this);
 
-  Coord copyWith({
-    double? lon,
-    double? lat,
+  Listes copyWith({
+    int? dt,
+    Main? main,
+    List<Weather>? weather,
   }) {
-    return Coord(
-      lon: lon ?? this.lon,
-      lat: lat ?? this.lat,
+    return Listes(
+      dt: dt ?? this.dt,
+      main: main ?? this.main,
+      weather: weather ?? this.weather,
     );
   }
 }
+
+@JsonSerializable()
+class City {
+  @JsonKey(name: 'name')
+  final String name;
+  @JsonKey(name: 'country')
+  final String country;
+
+  const City({
+    this.name = '',
+    this.country = '',
+  });
+
+  factory City.fromJson(Map<String, dynamic> json) => _$CityFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CityToJson(this);
+
+  City copyWith({
+    String? name,
+    String? country,
+  }) {
+    return City(
+      name: name ?? this.name,
+      country: country ?? this.country,
+    );
+  }
+}
+
 
 @JsonSerializable()
 class Weather {

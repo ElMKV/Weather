@@ -41,7 +41,11 @@ dependencies:
   build_runner: ^2.3.3
   geolocator: ^10.1.0
   intl: ^0.18.1
-  flutter_localization: ^0.1.14
+  flutter_svg: ^2.0.5
+  hexcolor: 3.0.0
+  flutter_localization: 0.1.13
+
+
 
 
 
@@ -67,6 +71,10 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+
+  assets:
+    - assets/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

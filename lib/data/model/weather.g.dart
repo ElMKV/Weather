@@ -7,34 +7,45 @@ part of 'weather.dart';
 // **************************************************************************
 
 Weathers _$WeathersFromJson(Map<String, dynamic> json) => Weathers(
-      coord: json['coord'] == null
-          ? const Coord()
-          : Coord.fromJson(json['coord'] as Map<String, dynamic>),
+      list: (json['list'] as List<dynamic>?)
+              ?.map((e) => Listes.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      city: json['city'] == null
+          ? const City()
+          : City.fromJson(json['city'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$WeathersToJson(Weathers instance) => <String, dynamic>{
+      'list': instance.list,
+      'city': instance.city,
+    };
+
+Listes _$ListesFromJson(Map<String, dynamic> json) => Listes(
+      dt: json['dt'] as int?,
+      main: json['main'] == null
+          ? const Main()
+          : Main.fromJson(json['main'] as Map<String, dynamic>),
       weather: (json['weather'] as List<dynamic>?)
               ?.map((e) => Weather.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      main: json['main'] == null
-          ? const Main()
-          : Main.fromJson(json['main'] as Map<String, dynamic>),
-      name: json['name'] as String? ?? 'Нет данных',
     );
 
-Map<String, dynamic> _$WeathersToJson(Weathers instance) => <String, dynamic>{
-      'coord': instance.coord,
-      'weather': instance.weather,
+Map<String, dynamic> _$ListesToJson(Listes instance) => <String, dynamic>{
+      'dt': instance.dt,
       'main': instance.main,
-      'name': instance.name,
+      'weather': instance.weather,
     };
 
-Coord _$CoordFromJson(Map<String, dynamic> json) => Coord(
-      lon: (json['lon'] as num?)?.toDouble() ?? 0,
-      lat: (json['lat'] as num?)?.toDouble() ?? 0,
+City _$CityFromJson(Map<String, dynamic> json) => City(
+      name: json['name'] as String? ?? '',
+      country: json['country'] as String? ?? '',
     );
 
-Map<String, dynamic> _$CoordToJson(Coord instance) => <String, dynamic>{
-      'lon': instance.lon,
-      'lat': instance.lat,
+Map<String, dynamic> _$CityToJson(City instance) => <String, dynamic>{
+      'name': instance.name,
+      'country': instance.country,
     };
 
 Weather _$WeatherFromJson(Map<String, dynamic> json) => Weather(
