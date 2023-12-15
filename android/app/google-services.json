@@ -1,42 +1,33 @@
 {
   "project_info": {
-    "project_number": "371198022746",
-    "firebase_url": "https://cloudchat-5583c.firebaseio.com",
-    "project_id": "cloudchat-5583c",
-    "storage_bucket": "cloudchat-5583c.appspot.com"
+    "project_number": "940864314483",
+    "project_id": "gaspromneft-1fdc6",
+    "storage_bucket": "gaspromneft-1fdc6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:371198022746:android:91e0a12c8c7d5e2d",
+        "mobilesdk_app_id": "1:940864314483:android:54df907906ba341ddf5e06",
         "android_client_info": {
-          "package_name": "com.example.cloudchat"
+          "package_name": "com.example.flutter_firebase"
         }
       },
       "oauth_client": [
         {
-          "client_id": "371198022746-n1cr5c7lssot0ul4dc5liof6dnn9aeu1.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.cloudchat",
-            "certificate_hash": "6c91e50eb387a96c6ee85ffa19ecf76a2ff706ca"
-          }
-        },
-        {
-          "client_id": "371198022746-koh71tnjgds838v549hmnr2tuiag13mv.apps.googleusercontent.com",
+          "client_id": "940864314483-7vmcd7uu2f6f4lakhock2q4p02tvercq.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBxps7GuoiqYNUOSfntEXZde7Bov3x3YaM"
+          "current_key": "AIzaSyAlYF5-H4pEN-Vri2mfzj8X_l7QHzXbbnY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "371198022746-koh71tnjgds838v549hmnr2tuiag13mv.apps.googleusercontent.com",
+              "client_id": "940864314483-7vmcd7uu2f6f4lakhock2q4p02tvercq.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -45,27 +36,27 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:371198022746:android:b83607d7bff4c7756af463",
+        "mobilesdk_app_id": "1:940864314483:android:6f63ecfb59d76664df5e06",
         "android_client_info": {
           "package_name": "com.example.weather"
         }
       },
       "oauth_client": [
         {
-          "client_id": "371198022746-koh71tnjgds838v549hmnr2tuiag13mv.apps.googleusercontent.com",
+          "client_id": "940864314483-7vmcd7uu2f6f4lakhock2q4p02tvercq.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBxps7GuoiqYNUOSfntEXZde7Bov3x3YaM"
+          "current_key": "AIzaSyAlYF5-H4pEN-Vri2mfzj8X_l7QHzXbbnY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "371198022746-koh71tnjgds838v549hmnr2tuiag13mv.apps.googleusercontent.com",
+              "client_id": "940864314483-7vmcd7uu2f6f4lakhock2q4p02tvercq.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

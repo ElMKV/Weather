@@ -44,43 +44,37 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyANve_Aon8Z1AUv16iUaPecA9Y7bfFOT5Y',
-    appId: '1:371198022746:web:3756c7c04275c2a06af463',
-    messagingSenderId: '371198022746',
-    projectId: 'cloudchat-5583c',
-    authDomain: 'cloudchat-5583c.firebaseapp.com',
-    databaseURL: 'https://cloudchat-5583c.firebaseio.com',
-    storageBucket: 'cloudchat-5583c.appspot.com',
+    apiKey: 'AIzaSyCzHSIo_WDGEYOsxxVl5BiIlbjeoKKxvbU',
+    appId: '1:940864314483:web:5e8872ad6fde8595df5e06',
+    messagingSenderId: '940864314483',
+    projectId: 'gaspromneft-1fdc6',
+    authDomain: 'gaspromneft-1fdc6.firebaseapp.com',
+    storageBucket: 'gaspromneft-1fdc6.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBxps7GuoiqYNUOSfntEXZde7Bov3x3YaM',
-    appId: '1:371198022746:android:b83607d7bff4c7756af463',
-    messagingSenderId: '371198022746',
-    projectId: 'cloudchat-5583c',
-    databaseURL: 'https://cloudchat-5583c.firebaseio.com',
-    storageBucket: 'cloudchat-5583c.appspot.com',
+    apiKey: 'AIzaSyAlYF5-H4pEN-Vri2mfzj8X_l7QHzXbbnY',
+    appId: '1:940864314483:android:6f63ecfb59d76664df5e06',
+    messagingSenderId: '940864314483',
+    projectId: 'gaspromneft-1fdc6',
+    storageBucket: 'gaspromneft-1fdc6.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCy2HxKZ0QZE5G4v1wl-nV5pN3fO680qjM',
-    appId: '1:371198022746:ios:334c0b51a485b0bb6af463',
-    messagingSenderId: '371198022746',
-    projectId: 'cloudchat-5583c',
-    databaseURL: 'https://cloudchat-5583c.firebaseio.com',
-    storageBucket: 'cloudchat-5583c.appspot.com',
-    androidClientId: '371198022746-n1cr5c7lssot0ul4dc5liof6dnn9aeu1.apps.googleusercontent.com',
+    apiKey: 'AIzaSyBkVBHJUsYrYqTGWZMKqe0_8coyBVs53n8',
+    appId: '1:940864314483:ios:fc503756e4ef24afdf5e06',
+    messagingSenderId: '940864314483',
+    projectId: 'gaspromneft-1fdc6',
+    storageBucket: 'gaspromneft-1fdc6.appspot.com',
     iosBundleId: 'com.example.weather',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCy2HxKZ0QZE5G4v1wl-nV5pN3fO680qjM',
-    appId: '1:371198022746:ios:b71a031e95725e306af463',
-    messagingSenderId: '371198022746',
-    projectId: 'cloudchat-5583c',
-    databaseURL: 'https://cloudchat-5583c.firebaseio.com',
-    storageBucket: 'cloudchat-5583c.appspot.com',
-    androidClientId: '371198022746-n1cr5c7lssot0ul4dc5liof6dnn9aeu1.apps.googleusercontent.com',
+    apiKey: 'AIzaSyBkVBHJUsYrYqTGWZMKqe0_8coyBVs53n8',
+    appId: '1:940864314483:ios:f3738c6a2ac52162df5e06',
+    messagingSenderId: '940864314483',
+    projectId: 'gaspromneft-1fdc6',
+    storageBucket: 'gaspromneft-1fdc6.appspot.com',
     iosBundleId: 'com.example.weather.RunnerTests',
   );
 }
