@@ -1,10 +1,14 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:meta/meta.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather/core/constants/constant.dart';
+import 'package:weather/core/globals/globals.dart';
 import 'package:weather/data/model/weather.dart';
 import 'package:weather/domain/repositories/wetaher.dart';
 
@@ -23,13 +27,30 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
           AppConstants.token, position.latitude, position.longitude)
           .then((value) async {
         if (value != null && value.list.isNotEmpty) {
+          storeToLocal(value);
+
           emit(WeatherUpState(state.pageState.copyWith(
             weathers: value,
           )));
         } else {
-          emit(WeatherErrorState(state.pageState.copyWith(
-            error: 'Ошибка загрузки погоды',
-          )));
+          emit(WeatherLoadingState(state.pageState));
+
+          Weathers weathers = await getWeatherFromStore();
+          print(' svsdvsdvsdvsdv');
+          print(weathers.list.first.main.tempMax);
+          if (weathers.list.isNotEmpty) {
+            final SnackBar snackBar =
+            SnackBar(content: Text('Последние загруженные данные погоды'));
+            snackbarKey.currentState?.showSnackBar(snackBar);
+            emit(WeatherUpState(state.pageState.copyWith(
+              weathers: weathers,
+            )));
+
+          } else {
+            emit(WeatherErrorState(state.pageState.copyWith(
+              error: 'Ошибка загрузки погоды',
+            )));
+          }
         }
       });
 
@@ -72,5 +93,20 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
     return await Geolocator.getCurrentPosition();
+  }
+
+  Future<void> storeToLocal(Weathers weathers) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String jsonNews = jsonEncode(weathers);
+    sharedPreferences.setString('weathers', jsonNews);
+  }
+
+  Future<Weathers> getWeatherFromStore() async {
+    print('getWeatherFromStore');
+    SharedPreferences sharedNews = await SharedPreferences.getInstance();
+    String newsFRomStore = sharedNews.getString('weathers') ?? '';
+    Weathers weathers = Weathers.fromJson(jsonDecode(newsFRomStore));
+
+    return (weathers.list.isNotEmpty ? weathers : const Weathers());
   }
 }

@@ -45,6 +45,8 @@ dependencies:
   hexcolor: 3.0.0
   firebase_auth: ^4.15.3
   firebase_core: ^2.24.2
+  shared_preferences: ^2.2.2
+
 
 
 
