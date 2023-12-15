@@ -54,6 +54,10 @@ dependencies:
   firebase_storage: ^11.2.1
 
 
+flutter_native_splash:
+  color: "#0700FF"
+
+
 
 
 
@@ -115,3 +119,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+

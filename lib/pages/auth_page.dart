@@ -16,7 +16,7 @@ class _State extends State<AuthPage> {
   String _pwd = "";
   String _mail = "";
   User? _user;
-  bool _viewPassowrd = false;
+  bool _viewPassowrd = true;
 
   @override
   void initState() {
@@ -33,67 +33,6 @@ class _State extends State<AuthPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      // body: Padding(
-      //     padding: const EdgeInsets.all(10.0),
-      //     child: Stack(children: [
-      //       ListView(children: [
-      //         Card(
-      //           color: Colors.grey.shade300,
-      //           child: Column(children: [
-      //             Container(height: 10),
-      //             const Text("Email and password",
-      //                 style:
-      //                     TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-      //             Container(height: 10),
-      //             Padding(
-      //               padding: const EdgeInsets.symmetric(horizontal: 10),
-      //               child: TextField(
-      //                   onChanged: (value) {
-      //                     setState(() {
-      //                       _mail = value;
-      //                     });
-      //                   },
-      //                   decoration:
-      //                       const InputDecoration(label: Text("Email"))),
-      //             ),
-      //             Container(height: 10),
-      //             Padding(
-      //               padding: const EdgeInsets.symmetric(horizontal: 10),
-      //               child: TextField(
-      //                   onChanged: (value) {
-      //                     setState(() {
-      //                       _pwd = value;
-      //                     });
-      //                   },
-      //                   decoration:
-      //                       const InputDecoration(label: Text("Password"))),
-      //             ),
-      //             Container(height: 10),
-      //             Row(
-      //                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      //                 children: [
-      //                   ElevatedButton(
-      //                       onPressed: () async {
-      //                         var res = await Auth.mailSignIn(_mail, _pwd);
-      //                         ScaffoldMessenger.of(context).showSnackBar(
-      //                             SnackBar(
-      //                                 backgroundColor: res == null
-      //                                     ? Colors.green
-      //                                     : Colors.red,
-      //                                 content: Text(res ?? "Вы вошли под аккаунтом ${_user?.email}")));
-      //                         Navigator.of(context).push(MaterialPageRoute(
-      //                             builder: (context) => const HomePage()));
-      //
-      //                       },
-      //                       child: const Text("Login"))
-      //                 ]),
-      //             Container(height: 10)
-      //           ]),
-      //         ),
-      //       ]),
-      //
-      //     ])),
-
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(32.0),
@@ -119,12 +58,15 @@ class _State extends State<AuthPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: TextField(
+
                     onChanged: (value) {
                       setState(() {
                         _mail = value;
                       });
                     },
                     decoration: InputDecoration(
+                      label: Text("Email"),
+
                       prefixIconColor: MaterialStateColor.resolveWith(
                           (Set<MaterialState> states) {
                         if (states.contains(MaterialState.focused)) {
@@ -166,7 +108,7 @@ class _State extends State<AuthPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       CustomButton(
-                          width: 327,
+                          width: MediaQuery.of(context).size.width/1.3,
                           height: 48,
                           text: 'Вход',
                           onTap: () async {
