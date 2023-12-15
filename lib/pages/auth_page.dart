@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:weather/firebase/auth.dart';
+import 'package:weather/futures/core_widgets/custom_button.dart';
+import 'package:weather/futures/main/homePage.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({Key? key}) : super(key: key);
@@ -13,6 +16,7 @@ class _State extends State<AuthPage> {
   String _pwd = "";
   String _mail = "";
   User? _user;
+  bool _viewPassowrd = false;
 
   @override
   void initState() {
@@ -28,143 +32,159 @@ class _State extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Center(child: Text("Firebase Auth"))),
-      body: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Stack(children: [
-            ListView(children: [
-              Card(
-                color: Colors.grey.shade300,
-                child: Column(children: [
-                  Container(height: 10),
-                  const Text("Email and password",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                  Container(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: TextField(
-                        onChanged: (value) {
-                          setState(() {
-                            _mail = value;
-                          });
-                        },
-                        decoration:
-                            const InputDecoration(label: Text("Email"))),
+      backgroundColor: Colors.white,
+      // body: Padding(
+      //     padding: const EdgeInsets.all(10.0),
+      //     child: Stack(children: [
+      //       ListView(children: [
+      //         Card(
+      //           color: Colors.grey.shade300,
+      //           child: Column(children: [
+      //             Container(height: 10),
+      //             const Text("Email and password",
+      //                 style:
+      //                     TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+      //             Container(height: 10),
+      //             Padding(
+      //               padding: const EdgeInsets.symmetric(horizontal: 10),
+      //               child: TextField(
+      //                   onChanged: (value) {
+      //                     setState(() {
+      //                       _mail = value;
+      //                     });
+      //                   },
+      //                   decoration:
+      //                       const InputDecoration(label: Text("Email"))),
+      //             ),
+      //             Container(height: 10),
+      //             Padding(
+      //               padding: const EdgeInsets.symmetric(horizontal: 10),
+      //               child: TextField(
+      //                   onChanged: (value) {
+      //                     setState(() {
+      //                       _pwd = value;
+      //                     });
+      //                   },
+      //                   decoration:
+      //                       const InputDecoration(label: Text("Password"))),
+      //             ),
+      //             Container(height: 10),
+      //             Row(
+      //                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      //                 children: [
+      //                   ElevatedButton(
+      //                       onPressed: () async {
+      //                         var res = await Auth.mailSignIn(_mail, _pwd);
+      //                         ScaffoldMessenger.of(context).showSnackBar(
+      //                             SnackBar(
+      //                                 backgroundColor: res == null
+      //                                     ? Colors.green
+      //                                     : Colors.red,
+      //                                 content: Text(res ?? "Вы вошли под аккаунтом ${_user?.email}")));
+      //                         Navigator.of(context).push(MaterialPageRoute(
+      //                             builder: (context) => const HomePage()));
+      //
+      //                       },
+      //                       child: const Text("Login"))
+      //                 ]),
+      //             Container(height: 10)
+      //           ]),
+      //         ),
+      //       ]),
+      //
+      //     ])),
+
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 40,
+              ),
+              Text(
+                'Вход',
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                'Введите данные для входа',
+                style: TextStyle(fontSize: 15, color: HexColor('#8799A5')),
+              ),
+              Column(children: [
+                Container(height: 60),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: TextField(
+                    onChanged: (value) {
+                      setState(() {
+                        _mail = value;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      prefixIconColor: MaterialStateColor.resolveWith(
+                          (Set<MaterialState> states) {
+                        if (states.contains(MaterialState.focused)) {
+                          return Colors.blue;
+                        }
+                        if (states.contains(MaterialState.error)) {
+                          return Colors.red;
+                        }
+                        return Colors.grey;
+                      }),
+                    ),
                   ),
-                  Container(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: TextField(
-                        onChanged: (value) {
-                          setState(() {
-                            _pwd = value;
-                          });
-                        },
-                        decoration:
-                            const InputDecoration(label: Text("Password"))),
-                  ),
-                  Container(height: 10),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ElevatedButton(
-                            onPressed: () async {
-                              var res = await Auth.mailRegister(_mail, _pwd);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      backgroundColor: res == null
-                                          ? Colors.green
-                                          : Colors.red,
-                                      content: Text(res ?? "Registered!")));
-                            },
-                            child: const Text("Register")),
-                        ElevatedButton(
-                            onPressed: () async {
-                              var res = await Auth.mailSignIn(_mail, _pwd);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      backgroundColor: res == null
-                                          ? Colors.green
-                                          : Colors.red,
-                                      content: Text(res ?? "Logged in!")));
-                            },
-                            child: const Text("Login"))
-                      ]),
-                  Container(height: 10)
-                ]),
-              ),
-              Container(height: 10),
-              Card(
-                color: Colors.grey.shade300,
-                child: Column(children: [
-                  Container(height: 10),
-                  const Text("Login with Google",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                  Container(height: 10),
-                  ElevatedButton(
-                      onPressed: () async {
-                        var res = await Auth.googleSignIn();
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            backgroundColor:
-                                res == null ? Colors.green : Colors.red,
-                            content: Text(res ?? "Logged in!")));
+                ),
+                Container(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: TextField(
+                      obscureText: _viewPassowrd,
+                      enableSuggestions: false,
+                      autocorrect: false,
+                      onChanged: (value) {
+                        setState(() {
+                          _pwd = value;
+                        });
                       },
-                      child: const Text("Login with Google")),
-                  Container(height: 10)
-                ]),
-              ),
-              Container(height: 10),
-              Card(
-                color: Colors.grey.shade300,
-                child: Column(children: [
-                  Container(height: 10),
-                  const Text("Log out",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                  Container(height: 10),
-                  ElevatedButton(
-                      onPressed: () async {
-                        var res = await Auth.signOut();
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            backgroundColor:
-                                res == null ? Colors.green : Colors.red,
-                            content: Text(res ?? "Logged out!")));
-                      },
-                      child: const Text("Sign out")),
-                  Container(height: 10)
-                ]),
-              ),
-              Container(height: 10),
-              if (_user != null)
-                Card(
-                    color: Colors.grey.shade300,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text("User data",
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                            Container(height: 10),
-                            Text("Mail: ${_user?.email}"),
-                            Text("Display Name: ${_user?.displayName}"),
-                            Text("User UID: ${_user?.uid}")
-                          ]),
-                    ))
-            ]),
-            Align(
-                alignment: Alignment.bottomCenter,
-                child: Text(
-                  _user != null ? "Logged in" : "Logged out",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: _user != null ? Colors.green : Colors.red,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                ))
-          ])),
+                      decoration: InputDecoration(
+                        label: Text("Пароль"),
+                        suffixIcon: IconButton(
+                            onPressed: ()  {
+                              setState(() {
+                                _viewPassowrd = !_viewPassowrd;
+                              });
+                            },
+                            icon: Icon(Icons.visibility_outlined, color: _viewPassowrd ? Colors.blue : Colors.red,)),
+                      )),
+                ),
+                Container(height: 60),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      CustomButton(
+                          width: 327,
+                          height: 48,
+                          text: 'Вход',
+                          onTap: () async {
+                            var res = await Auth.mailSignIn(_mail, _pwd);
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                backgroundColor:
+                                    res == null ? Colors.green : Colors.red,
+                                content: Text(res ??
+                                    "Вы вошли под аккаунтом ${_user?.email}")));
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const HomePage()));
+                          }),
+                    ]),
+              ]),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
